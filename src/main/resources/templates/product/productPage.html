@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe</title>
+    <link rel="icon" type="image/x-icon" href="/assets/image/favicon.ico">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/fontawesome-5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/assets/js/jQuery.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!-- Start TopBar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <i class="fas fa-cart-plus"></i>
+            <a class="navbar-brand" href="#" ()>Shoe Ecommerce</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <input class="form-control me-2 search" type="search" placeholder="Enter your search shoes"
+                       aria-label="Search" id="input-search" value="">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="login_area">
+                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </nav>
+    <!-- End TopBar -->
+    <div class="row">
+        <div class="col-2 side-bar">
+
+            <div class="categoy-check">
+                <h5>Category</h5>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategoryAll" checked value="all">
+                        <label class="form-check-label" for="flexRadioCategoryAll">
+                            All
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategorySneakers" value="Sneakers">
+                        <label class="form-check-label" for="flexRadioCategorySneakers">
+                            Sneakers
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategoryFlats" value="Flats">
+                        <label class="form-check-label" for="flexRadioCategoryFlats">
+                            Flats
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategorySandals" value="Sandals">
+                        <label class="form-check-label" for="flexRadioCategorySandals">
+                            Sandals
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategoryHeels" value="Heels">
+                        <label class="form-check-label" for="flexRadioCategoryHeels">
+                            Heels
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-check">
+                <h5>Price</h5>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceAll" checked
+                               value="all">
+                        <label class="form-check-label" for="flexRadioPriceAll">
+                            All
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSneakers"
+                               value="1">
+                        <label class="form-check-label" for="flexRadioPriceSneakers">
+                            $0 - $50
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceFlats"
+                               value="2">
+                        <label class="form-check-label" for="flexRadioPriceFlats">
+                            $50 - $100
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSandals"
+                               value="3">
+                        <label class="form-check-label" for="flexRadioPriceSandals">
+                            $100 - $150
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceHeels"
+                               value="4">
+                        <label class="form-check-label" for="flexRadioPriceHeels">
+                            Over $150
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-check">
+                <h5>Color</h5>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorAll"
+                               style="background-color: blueviolet;" checked value="all">
+                        <label class="form-check-label" for="flexRadioColorAll">
+                            All
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorBlack"
+                               style="background-color: black;" value="black">
+                        <label class="form-check-label" for="flexRadioColorBlack">
+                            Black
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorBlue"
+                               style="background-color: blue;" value="blue">
+                        <label class="form-check-label" for="flexRadioColorBlue">
+                            Blue
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorRed"
+                               style="background-color: red;" value="red">
+                        <label class="form-check-label" for="flexRadioColorRed">
+                            Red
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorWhite"
+                               style="background-color: white;" value="white">
+                        <label class="form-check-label" for="flexRadioColorWhite">
+                            White
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorGreen"
+                               style="background-color: green;" value="green">
+                        <label class="form-check-label" for="flexRadioColorGreen">
+                            Green
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-10">
+            <div class="brand-select">
+                <h5>Recommended</h5>
+                <div role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAll" autocomplete="off"
+                           checked value="all">
+                    <label class="btn btn-outline-secondary" for="brandAll">All Products</label>
+
+                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandNike" autocomplete="off"
+                           value="Nike">
+                    <label class="btn btn-outline-secondary" for="brandNike">Nike</label>
+
+                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAdidas" autocomplete="off"
+                           value="Adidas">
+                    <label class="btn btn-outline-secondary" for="brandAdidas">Adidas</label>
+
+                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandPuma" autocomplete="off"
+                           value="Puma">
+                    <label class="btn btn-outline-secondary" for="brandPuma">Puma</label>
+
+                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandVans" autocomplete="off"
+                           value="Vans">
+                    <label class="btn btn-outline-secondary" for="brandVans">Vans</label>
+                </div>
+            </div>
+            <div class="main-product">
+                <h5>Products</h5>
+                <div class="container-fluid">
+                    <div class="row" id="product-data">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    async function getAllData() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/product'
+        })
+    }
+    async function showData() {
+        $('#product-data').empty()
+        const category = $('input[name="flexRadioCategory"]:checked').val();
+        const color = $('input[name="flexRadioColor"]:checked').val();
+        const brand = $('input[name="brandSelect"]:checked').val();
+        const price = $('input[name="flexRadioPrice"]:checked').val();
+        const search = $('#input-search').val();
+        const products = await getAllData();
+        var listCategory = []
+        var listColor = []
+        var listSearch = []
+        var listBrand = []
+        var listPrice = []
+        products.forEach(element => {
+            if (category === 'all') {
+                listCategory.push(element)
+            } else if (element.category.nameCategory === category) {
+                listCategory.push(element)
+            }
+        })
+        listCategory.forEach(element => {
+            if (color === 'all') {
+                listColor.push(element)
+            } else if (element.color.nameColor === color) {
+                listColor.push(element)
+            }
+        })
+        listColor.forEach(element => {
+            if (brand === 'all') {
+                listBrand.push(element)
+            } else if (element.company.nameCompany === brand)
+                listBrand.push(element)
+        })
+        listBrand.forEach(element => {
+            if (element.title.toLowerCase().includes(search.toLowerCase())) {
+                listSearch.push(element)
+            }
+        })
+        listSearch.forEach(element => {
+            if (price === "all") {
+                listPrice.push(element)
+            } else if (checkPrice(parseInt(element.prevPrice)) == parseInt(price)) {
+                listPrice.push(element)
+            }
+        })
+        listPrice.forEach(element => {
+            const strRender = renderProduct(element)
+            $('#product-data').prepend(strRender)
+            const starIndex = parseInt(element.star)
+            for (let i = 0; i < starIndex; i++) {
+                $('#star-counter').prepend(renderStar())
+            }
+        });
+    }
+    function renderStar() {
+        return `<i class="fas fa-star" style="color: #fbff00;"></i>`
+    }
+    function renderProduct(product) {
+        return `  <div class="col-3 product-cell">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="image-shoes">
+                        <img src=${product.img} class="card-img-top">
+                      </div>
+                      <h5 class="card-title">${product.title}</h5>
+                      <div class="review">
+                            <div class="star-count" id="star-counter">
+                          </div>
+                          <div class="rieviewer-count">
+                            (${product.reviews} reviewer)
+                          </div>
+                      </div>
+                      <div class="buyProduct">
+                          <del class="prev-price line-through me-2">$${product.newPrice}</del>
+                          <div class="new-price">$${product.prevPrice}</div>
+                        <div class="bt-add-to-cart" onclick="addToCart(${product.id})">
+                          <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                    </div>
+
+                    </div>
+                  </div>
+              </div>`
+    }
+    function addEvent() {
+        $('.reload').on('click', function () {
+            $('#product-data').empty()
+            showData();
+        });
+        $('.search').on('change', function () {
+            $('#product-data').empty()
+            showData();
+        })
+        // $('.bt-add-to-cart').on('click', function (){
+        //     const id = this.querySelector('input[name="value_product"]').innerHTML
+        //     addToCart(parseInt(id))
+        // })
+    }
+    function addToCart(idProduct){
+        const cartDetailCreDTO ={
+            idProduct
+        }
+        console.log(cartDetailCreDTO)
+        $.ajax(
+            {   headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                method: 'POST',
+                url: 'http://localhost:8081/api/cartDetail',
+                data: JSON.stringify(cartDetailCreDTO)
+            }
+        ).done((data) =>{
+            alert("Đã thêm vào giỏ hàng")
+        }).fail((err) =>{
+            alert("Lỗi, thêm thất bại")
+        })
+    }
+
+    function checkPrice(price) {
+        if (price > 0 && price <= 50) {
+            return "1"
+        }
+        if (price <= 100) {
+            return "2"
+        }
+        if (price <= 150) {
+            return "3"
+        } else return "4"
+    }
+    $(async () => {
+        await showData()
+        addEvent()
+    })
+</script>
+</body>
+</html>
