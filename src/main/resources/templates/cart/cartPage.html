@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe</title>
+    <link rel="icon" type="image/x-icon" href="/assets/image/favicon.ico">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/fontawesome-5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/assets/js/jQuery.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!-- Start TopBar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <i class="fas fa-cart-plus"></i>
+            <a class="navbar-brand" href="#" ()>Shoe Ecommerce</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <input class="form-control me-2 search" type="search" placeholder="Enter your search shoes"
+                       aria-label="Search" id="input-search" value="">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="login_area">
+                <i class="fas fa-shopping-cart btn-add-cart">
+                </i>
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </nav>
+    <!-- End TopBar -->
+    <div class="row">
+        <h3>Cart Detail</h3>
+        <div class="col-8 side-bar">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4 side-bar">
+            <div class="total-payment">
+                <div class="total-payment-area">
+                    <h3>Order Summary</h3>
+                    <div class="payment-details">
+                        <div >Subtotal</div>
+                        <div  style="font-weight: bold">$0</div>
+                    </div>
+                    <div class="payment-details">
+                        <div >Shipping</div>
+                        <div style="font-weight: bold">Free</div>
+                    </div>
+                    <div class="total-payment-details">
+                        <div>Total</div>
+                        <div>$0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-info-customer">
+                <form>
+                    <h3>Customer Info</h3>
+                    <div class="row mb-3">
+                        <div style="margin-bottom: 5px">FullName</div>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="inputFullName" placeholder="FullName">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div style="margin-bottom: 5px">Address</div>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="inputAddress" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div style="margin-bottom: 5px">Email</div>
+                        <div class="col-sm-12">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div style="margin-bottom: 5px">Mobile</div>
+                        <div class="col-sm-12">
+                            <input type="tel" class="form-control" id="inputMobile" placeholder="Mobile">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                    <button type="submit" class="btn btn-success">CHECK OUT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const idUser = 1;
+    async function getAllCartDetail() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/cartDetail'
+        })
+    }
+    function showCart(){
+        const cart = getAllCartDetail();
+        cart.forEach(element =>{
+
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,18 +1,19 @@
 package com.cg.shoeprojectmain.controller.rest;
 
 import com.cg.shoeprojectmain.model.CartDetail;
+import com.cg.shoeprojectmain.model.CustomerInfo;
 import com.cg.shoeprojectmain.model.Product;
 import com.cg.shoeprojectmain.model.dto.CartDetailCreDTO;
 import com.cg.shoeprojectmain.repository.CartDetailRepository;
 import com.cg.shoeprojectmain.repository.CartRepository;
+import com.cg.shoeprojectmain.repository.CustomerInforRepossitory;
 import com.cg.shoeprojectmain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cartDetail")
@@ -23,6 +24,8 @@ public class CartDetailRestController {
     private CartRepository cartRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CustomerInforRepossitory customerInforRepossitory;
     @PostMapping
     public ResponseEntity<?> createCartDetail(@RequestBody CartDetailCreDTO cartDetailCreDTO){
         Product product = productRepository.findById(cartDetailCreDTO.getIdProduct()).get();
@@ -38,5 +41,12 @@ public class CartDetailRestController {
             cartDetailRepository.save(cartDetail);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @GetMapping
+    public ResponseEntity<?> getAllCartDetail(){
+        Long idUser = 1L;
+        CustomerInfo customerInfo = customerInforRepossitory.findById(idUser).get();
+        List<CartDetail> cartDetails = cartDetailRepository.findAllByCart_Id(customerInfo.getId());
+        return new ResponseEntity<>(cartDetails, HttpStatus.OK);
     }
 }

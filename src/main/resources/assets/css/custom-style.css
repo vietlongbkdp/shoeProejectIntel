@@ -28,22 +28,6 @@ i {
   h5{
     margin-top: 1rem;
   }
-  /* .grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    padding: 20px;
-    margin: auto;
-  }
-  .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    font-size: 15px;
-    text-align: center;
-    margin: 10px;
-    width: 15rem;
-    height: 12px;
-    margin-left: 3px;
-    border-radius: 5px;
-  } */
   .image-shoes{
     width: 8rem;
     margin-left: 5px;
@@ -83,4 +67,38 @@ i {
   }
   .card{
     height: 15rem;
+  }
+  .total-payment{
+    background-color: #0003;
+    border-radius: 5px;
+  }
+  .total-payment-area{
+    padding: 1rem;
+  }
+  .total-payment-area h3{
+    border-bottom: solid snow 0.1px;
+    padding-bottom: 5px;
+  }
+  .total-payment-details {
+    border-top: solid snow 0.1px;
+    padding-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .payment-details{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .form-info-customer{
+    background-color: #0000001a;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  .form-info-customer form{
+    padding: 1rem;
   }

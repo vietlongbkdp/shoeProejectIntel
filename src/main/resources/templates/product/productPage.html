@@ -30,7 +30,9 @@
                 <i class="fas fa-search"></i>
             </div>
             <div class="login_area">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart">
+
+                </i>
                 <i class="fas fa-user"></i>
             </div>
         </div>
@@ -208,9 +210,15 @@
 </div>
 </div>
 <script>
+    const idUser = 1;
     async function getAllData() {
         return await $.ajax({
             url: 'http://localhost:8081/api/product'
+        })
+    }
+    async function getAllCartDetail() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/cartDetail'
         })
     }
     async function showData() {
@@ -266,6 +274,24 @@
                 $('#star-counter').prepend(renderStar())
             }
         });
+        const cart = await getAllCartDetail();
+            $('.fa-shopping-cart').empty()
+        $('.fa-shopping-cart').removeClass('btn-add-cart')
+        // console.log(cart.length)
+        if(cart.length != 0){
+            $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
+            $('.fa-shopping-cart').addClass('btn-add-cart')
+        }
+        $('.btn-add-cart').on('click', function (){
+            goToCartPage()
+        })
+        $('.bt-add-to-cart').on('click', function(){
+            const idProduct = $(this).attr('id')
+            addToCart(idProduct)
+        })
+    }
+    function goToCartPage(){
+        window.location.href = 'http://localhost:8081/cart'
     }
     function renderStar() {
         return `<i class="fas fa-star" style="color: #fbff00;"></i>`
@@ -288,8 +314,8 @@
                       <div class="buyProduct">
                           <del class="prev-price line-through me-2">$${product.newPrice}</del>
                           <div class="new-price">$${product.prevPrice}</div>
-                        <div class="bt-add-to-cart" onclick="addToCart(${product.id})">
-                          <i class="fas fa-cart-arrow-down"></i>
+                        <div class="bt-add-to-cart" id="${product.id}">
+                              <i class="fas fa-cart-arrow-down"></i>
                         </div>
                     </div>
 
@@ -311,6 +337,7 @@
         //     addToCart(parseInt(id))
         // })
     }
+
     function addToCart(idProduct){
         const cartDetailCreDTO ={
             idProduct
@@ -326,8 +353,10 @@
             }
         ).done((data) =>{
             alert("Đã thêm vào giỏ hàng")
+            showData()
         }).fail((err) =>{
             alert("Lỗi, thêm thất bại")
+            showData()
         })
     }
 
