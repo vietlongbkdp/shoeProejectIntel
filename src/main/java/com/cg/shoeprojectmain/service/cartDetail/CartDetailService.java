@@ -31,6 +31,6 @@ public class CartDetailService implements ICartDetailService{
 
     @Override
     public void deleteById(Long id) {
-
+        cartDetailRepository.deleteById(id);
     }
 }

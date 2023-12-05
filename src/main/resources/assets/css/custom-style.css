@@ -111,3 +111,6 @@ i {
   vertical-align: middle;
   text-align: center;
 }
+.btn-deleteCD{
+  cursor: pointer;
+}

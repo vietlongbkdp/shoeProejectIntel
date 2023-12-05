@@ -107,6 +107,25 @@
             </div>
         </div>
     </div>
+<!--&lt;!&ndash;    Modal confirm Delete&ndash;&gt;-->
+<!--    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    ...-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--                    <button type="submit" class="btn btn-primary">Save changes</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--&lt;!&ndash;.................................&ndash;&gt;-->
 </div>
 <script>
     const idUser = 1;
@@ -120,26 +139,70 @@
             $('.table tbody').empty();
         cart.forEach(element =>{
             const strRenderCart = renderCart(element);
+
             $('.table tbody').append(strRenderCart);
         })
+        getAmount()
+        $('.btn-deleteCD').on('click', function (){
+            const idCartDetail = $(this).attr('id')
+            deleteCartDetail(idCartDetail)
+        })
     }
-    function getTotalAmount(){
+    function getAmount(){
 
+        document.querySelectorAll('.record-cart-detail').forEach(item =>{
+            const quantity =  parseInt(item.querySelector('.cart-detail-quantity').innerText)
+            const price = parseInt(item.querySelector('.cart-detail-price').innerText)
+            item.querySelector('.amount-cell').innerText = ''
+            item.querySelector('.amount-cell').append(quantity * price)
+        })
     }
+    function deleteCartDetail(idCartDetail){
+        $.ajax({
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            url: 'http://localhost:8081/api/cartDetail/delete/' + idCartDetail,
+            method: 'DELETE',
+        }).done((data) =>{
+            alert("Xoá thành công!");
+            showCart()
+        }).fail((err) =>{
+            alert("Thất bại!")
+        })
+    }
+    // $('.btn-reduce').on('click', function (){
+    //
+    // })
+    // $('.btn-add').on('click', function (){
+    //
+    // })
     function renderCart(cartDetail){
-        return `<tr>
+        return `<tr class="record-cart-detail">
                     <td><img src="${cartDetail.product.img}" style="width: 100px"></td>
-                    <td>$${cartDetail.product.newPrice}</td>
+                    <td class="cart-detail-price">${cartDetail.product.newPrice}</td>
                     <td><div class="btn-group " role="group" aria-label="Basic outlined example">
-                          <p type="button" class="btn btn-outline-secondary fw-bold">-</p>
-                          <p class="btn border-secondary fw-bold">${cartDetail.quantity}</p>
-                          <p type="button" class="btn btn-outline-secondary fw-bold">+</p>
+                          <p type="button" class="btn btn-outline-secondary fw-bold btn-reduce" onclick="reduceCd(${cartDetail.id})">-</p>
+                          <p class="btn border-secondary fw-bold cart-detail-quantity" id="quantity-CD-${cartDetail.id}">${cartDetail.quantity}</p>
+                          <p type="button" class="btn btn-outline-secondary fw-bold btn-add" onclick="addCd(${cartDetail.id})">+</p>
                         </div>
-
                     </td>
-                    <td class="amount-cell">0</td>
-                    <td><i class="fas fa-trash-alt"></i></td>
+                    <td class="amount-cell"></td>
+<!--                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD " data-bs-toggle="modal" data-bs-target="#exampleModal"></i></td>-->
+                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD "></i></td>
                 </tr>`
+    }
+    function reduceCd(idCartDetail){
+        let strId = 'quantity-CD-' + idCartDetail;
+        let quantity = parseInt(document.getElementById(strId).innerText) - 1;
+        document.getElementById(strId).innerText = quantity;
+        getAmount()
+    }
+    function addCd(idCartDetail){
+        let strId = 'quantity-CD-' + idCartDetail;
+        let quantity = parseInt(document.getElementById(strId).innerText) + 1;
+        document.getElementById(strId).innerText = quantity;
+        getAmount()
     }
     showCart()
 </script>

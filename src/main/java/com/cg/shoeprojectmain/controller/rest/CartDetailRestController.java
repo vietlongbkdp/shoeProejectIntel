@@ -49,4 +49,9 @@ public class CartDetailRestController {
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCart_Id(customerInfo.getId());
         return new ResponseEntity<>(cartDetails, HttpStatus.OK);
     }
+    @DeleteMapping("/delete/{idCartDetail}")
+    public ResponseEntity<?> deleteCartDetail(@PathVariable Long idCartDetail){
+        cartDetailRepository.deleteById(idCartDetail);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
