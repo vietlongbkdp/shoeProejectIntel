@@ -20,7 +20,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id",nullable = false)
     private CustomerInfo customerInfo;
     private BigDecimal totalAmount = BigDecimal.ZERO;

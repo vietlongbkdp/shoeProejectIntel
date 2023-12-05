@@ -102,3 +102,12 @@ i {
   .form-info-customer form{
     padding: 1rem;
   }
+  .table td{
+    vertical-align: middle;
+    text-align: center;
+    margin: auto;
+  }
+.table th{
+  vertical-align: middle;
+  text-align: center;
+}

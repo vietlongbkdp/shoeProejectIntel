@@ -51,27 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
@@ -135,12 +115,33 @@
             url: 'http://localhost:8081/api/cartDetail'
         })
     }
-    function showCart(){
-        const cart = getAllCartDetail();
+    async function showCart(){
+        const cart = await getAllCartDetail();
+            $('.table tbody').empty();
         cart.forEach(element =>{
-
+            const strRenderCart = renderCart(element);
+            $('.table tbody').append(strRenderCart);
         })
     }
+    function getTotalAmount(){
+
+    }
+    function renderCart(cartDetail){
+        return `<tr>
+                    <td><img src="${cartDetail.product.img}" style="width: 100px"></td>
+                    <td>$${cartDetail.product.newPrice}</td>
+                    <td><div class="btn-group " role="group" aria-label="Basic outlined example">
+                          <p type="button" class="btn btn-outline-secondary fw-bold">-</p>
+                          <p class="btn border-secondary fw-bold">${cartDetail.quantity}</p>
+                          <p type="button" class="btn btn-outline-secondary fw-bold">+</p>
+                        </div>
+
+                    </td>
+                    <td class="amount-cell">0</td>
+                    <td><i class="fas fa-trash-alt"></i></td>
+                </tr>`
+    }
+    showCart()
 </script>
 </body>
 </html>
