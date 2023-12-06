@@ -114,3 +114,6 @@ i {
 .btn-deleteCD{
   cursor: pointer;
 }
+.hide{
+  display: none;
+}

@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <i class="fas fa-cart-plus"></i>
-            <a class="navbar-brand" href="#" ()>Shoe Ecommerce</a>
+            <a class="navbar-brand" href="/products">Shoe Ecommerce</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -61,15 +61,15 @@
                     <h3>Order Summary</h3>
                     <div class="payment-details">
                         <div >Subtotal</div>
-                        <div  style="font-weight: bold">$0</div>
+                        <div  style="font-weight: bold" id="subtotal-cart"></div>
                     </div>
                     <div class="payment-details">
                         <div >Shipping</div>
-                        <div style="font-weight: bold">Free</div>
+                        <div style="font-weight: bold">$5</div>
                     </div>
                     <div class="total-payment-details">
                         <div>Total</div>
-                        <div>$0</div>
+                        <div class="total-amount-cart"></div>
                     </div>
                 </div>
             </div>
@@ -108,23 +108,23 @@
         </div>
     </div>
 <!--&lt;!&ndash;    Modal confirm Delete&ndash;&gt;-->
-<!--    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--        <div class="modal-dialog">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
-<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                </div>-->
-<!--                <div class="modal-body">-->
-<!--                    ...-->
-<!--                </div>-->
-<!--                <div class="modal-footer">-->
-<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                    <button type="submit" class="btn btn-primary">Save changes</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want delete this product ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary" id="btn-confirm-delete">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <!--&lt;!&ndash;.................................&ndash;&gt;-->
 </div>
 <script>
@@ -145,9 +145,14 @@
         getAmount()
         $('.btn-deleteCD').on('click', function (){
             const idCartDetail = $(this).attr('id')
-            deleteCartDetail(idCartDetail)
+            $('#btn-confirm-delete').on('click', async function (){
+                $('.modal-backdrop').addClass('hide')
+               await deleteCartDetail(idCartDetail)
+            })
         })
+        getSubTotal()
     }
+
     function getAmount(){
 
         document.querySelectorAll('.record-cart-detail').forEach(item =>{
@@ -171,12 +176,6 @@
             alert("Thất bại!")
         })
     }
-    // $('.btn-reduce').on('click', function (){
-    //
-    // })
-    // $('.btn-add').on('click', function (){
-    //
-    // })
     function renderCart(cartDetail){
         return `<tr class="record-cart-detail">
                     <td><img src="${cartDetail.product.img}" style="width: 100px"></td>
@@ -188,23 +187,47 @@
                         </div>
                     </td>
                     <td class="amount-cell"></td>
-<!--                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD " data-bs-toggle="modal" data-bs-target="#exampleModal"></i></td>-->
-                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD "></i></td>
+                    <td><i data-bs-toggle="modal" data-bs-target="#modalConfirm" id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD" ></i></td>
+<!--                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD "></i></td>-->
                 </tr>`
+    }
+    function getSubTotal(){
+        let subTotal = 0;
+        document.querySelectorAll('.amount-cell').forEach(item =>{
+            subTotal += parseInt(item.innerText)
+        })
+        let strSubTotal = '$' + subTotal
+        $('#subtotal-cart').text(strSubTotal)
+        let totalAmount = subTotal +5;
+        let strTotalAmount = '$' +  totalAmount;
+        $('.total-amount-cart').text(strTotalAmount)
     }
     function reduceCd(idCartDetail){
         let strId = 'quantity-CD-' + idCartDetail;
-        let quantity = parseInt(document.getElementById(strId).innerText) - 1;
-        document.getElementById(strId).innerText = quantity;
-        getAmount()
+        var quantity = parseInt(document.getElementById(strId).innerText)
+        if(quantity <= 1){
+            alert("You can't buy less 1 product/oder")
+        }else{
+            quantity--
+            document.getElementById(strId).innerText = quantity;
+            getAmount()
+            getSubTotal()
+        }
     }
     function addCd(idCartDetail){
         let strId = 'quantity-CD-' + idCartDetail;
-        let quantity = parseInt(document.getElementById(strId).innerText) + 1;
-        document.getElementById(strId).innerText = quantity;
-        getAmount()
+        var quantity = parseInt(document.getElementById(strId).innerText)
+        if(quantity >= 10){
+            alert("You can't buy more 10 product/oder")
+        }else{
+            quantity++
+            document.getElementById(strId).innerText = quantity;
+            getAmount()
+            getSubTotal()
+        }
     }
     showCart()
+
 </script>
 </body>
 </html>

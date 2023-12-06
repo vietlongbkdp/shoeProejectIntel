@@ -212,8 +212,44 @@
 <script>
     const idUser = 1;
     async function getAllData() {
+        const category = $('input[name="flexRadioCategory"]:checked').val();
+        const color = $('input[name="flexRadioColor"]:checked').val();
+        const brand = $('input[name="brandSelect"]:checked').val();
+        const priceArray = parseInt($('input[name="flexRadioPrice"]:checked').val());
+        const priceMax = 0;
+        const
+        if(priceArray == 1){
+            const priceMax = 50;
+            const priceMin = 0;
+        }else if(priceArray == 2){
+            const priceMax = 100;
+            const priceMin = 50;
+        }else if(priceArray == 3){
+            const priceMax = 150;
+            const priceMin = 100;
+        }else if(priceArray == 4){
+            const priceMax = 10000000;
+            const priceMin = 150;
+        }else {
+            const priceMax = 10000000;
+            const priceMin = 0;
+        }
+        const search = $('#input-search').val();
+        const obj = {
+            brand,
+            category,
+            priceMax,
+            priceMin,
+            color,
+            search
+        }
         return await $.ajax({
-            url: 'http://localhost:8081/api/product'
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+            method: 'GET',
+            url: 'http://localhost:8081/api/product',
+            data: JSON.stringify(obj)
         })
     }
     async function getAllCartDetail() {
@@ -223,50 +259,45 @@
     }
     async function showData() {
         $('#product-data').empty()
-        const category = $('input[name="flexRadioCategory"]:checked').val();
-        const color = $('input[name="flexRadioColor"]:checked').val();
-        const brand = $('input[name="brandSelect"]:checked').val();
-        const price = $('input[name="flexRadioPrice"]:checked').val();
-        const search = $('#input-search').val();
         const products = await getAllData();
-        var listCategory = []
-        var listColor = []
-        var listSearch = []
-        var listBrand = []
-        var listPrice = []
+        // var listCategory = []
+        // var listColor = []
+        // var listSearch = []
+        // var listBrand = []
+        // var listPrice = []
+        // products.forEach(element => {
+        //     if (category === 'all') {
+        //         listCategory.push(element)
+        //     } else if (element.category.nameCategory === category) {
+        //         listCategory.push(element)
+        //     }
+        // })
+        // listCategory.forEach(element => {
+        //     if (color === 'all') {
+        //         listColor.push(element)
+        //     } else if (element.color.nameColor === color) {
+        //         listColor.push(element)
+        //     }
+        // })
+        // listColor.forEach(element => {
+        //     if (brand === 'all') {
+        //         listBrand.push(element)
+        //     } else if (element.company.nameCompany === brand)
+        //         listBrand.push(element)
+        // })
+        // listBrand.forEach(element => {
+        //     if (element.title.toLowerCase().includes(search.toLowerCase())) {
+        //         listSearch.push(element)
+        //     }
+        // })
+        // listSearch.forEach(element => {
+        //     if (price === "all") {
+        //         listPrice.push(element)
+        //     } else if (checkPrice(parseInt(element.prevPrice)) == parseInt(price)) {
+        //         listPrice.push(element)
+        //     }
+        // })
         products.forEach(element => {
-            if (category === 'all') {
-                listCategory.push(element)
-            } else if (element.category.nameCategory === category) {
-                listCategory.push(element)
-            }
-        })
-        listCategory.forEach(element => {
-            if (color === 'all') {
-                listColor.push(element)
-            } else if (element.color.nameColor === color) {
-                listColor.push(element)
-            }
-        })
-        listColor.forEach(element => {
-            if (brand === 'all') {
-                listBrand.push(element)
-            } else if (element.company.nameCompany === brand)
-                listBrand.push(element)
-        })
-        listBrand.forEach(element => {
-            if (element.title.toLowerCase().includes(search.toLowerCase())) {
-                listSearch.push(element)
-            }
-        })
-        listSearch.forEach(element => {
-            if (price === "all") {
-                listPrice.push(element)
-            } else if (checkPrice(parseInt(element.prevPrice)) == parseInt(price)) {
-                listPrice.push(element)
-            }
-        })
-        listPrice.forEach(element => {
             const strRender = renderProduct(element)
             $('#product-data').prepend(strRender)
             const starIndex = parseInt(element.star)
@@ -274,14 +305,7 @@
                 $('#star-counter').prepend(renderStar())
             }
         });
-        const cart = await getAllCartDetail();
-            $('.fa-shopping-cart').empty()
-        $('.fa-shopping-cart').removeClass('btn-add-cart')
-        // console.log(cart.length)
-        if(cart.length != 0){
-            $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
-            $('.fa-shopping-cart').addClass('btn-add-cart')
-        }
+           await showCartQuantity();
         $('.btn-add-cart').on('click', function (){
             goToCartPage()
         })
@@ -292,6 +316,16 @@
     }
     function goToCartPage(){
         window.location.href = 'http://localhost:8081/cart'
+    }
+    async function showCartQuantity(){
+        const cart = await getAllCartDetail();
+        $('.fa-shopping-cart').empty()
+        $('.fa-shopping-cart').removeClass('btn-add-cart')
+        // console.log(cart.length)
+        if(cart.length != 0){
+            $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
+            $('.fa-shopping-cart').addClass('btn-add-cart')
+        }
     }
     function renderStar() {
         return `<i class="fas fa-star" style="color: #fbff00;"></i>`
@@ -338,12 +372,12 @@
         // })
     }
 
-    function addToCart(idProduct){
+  async  function addToCart(idProduct){
         const cartDetailCreDTO ={
             idProduct
         }
         console.log(cartDetailCreDTO)
-        $.ajax(
+       await $.ajax(
             {   headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 },
@@ -353,10 +387,10 @@
             }
         ).done((data) =>{
             alert("Đã thêm vào giỏ hàng")
-            showData()
+           showCartQuantity()
         }).fail((err) =>{
             alert("Lỗi, thêm thất bại")
-            showData()
+           showCartQuantity()
         })
     }
 
