@@ -1,16 +1,13 @@
 package com.cg.shoeprojectmain.controller.rest;
 
-import com.cg.shoeprojectmain.model.Filter;
-import com.cg.shoeprojectmain.model.Product;
+import com.cg.shoeprojectmain.model.*;
+import com.cg.shoeprojectmain.model.dto.FilterDTO;
 import com.cg.shoeprojectmain.repository.ProductRepository;
-import com.cg.shoeprojectmain.service.product.IProductService;
+import com.cg.shoeprojectmain.service.FilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +16,13 @@ import java.util.List;
 public class ProductRestController {
     @Autowired
     private ProductRepository productRepository;
-    @GetMapping("")
-    public ResponseEntity<?> getAllProduct(@RequestBody Filter filter){
-        List<Product> products = productRepository.findAllByFilter(filter.getBrand(), filter.getColor(), filter.getCategory(), filter.getPriceMax(), filter.getPriceMin(), filter.getSearch());
+
+    @Autowired
+    private FilterService filterService;
+    @PostMapping
+    public ResponseEntity<?> getAllProduct(@RequestBody FilterDTO filterDTO){
+            Filter filter = filterService.toFilter(filterDTO);
+            List<Product> products = productRepository.filterProduct(filter);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

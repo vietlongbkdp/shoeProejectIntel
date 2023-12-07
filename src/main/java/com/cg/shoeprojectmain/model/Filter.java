@@ -4,16 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class Filter {
-    private String brand;
-    private String category;
-    private Long priceMax;
-    private Long priceMin;
-    private String color;
+    private Long companyId;
+    private Long categoryId;
+    private Long maxPrice;
+    private Long minPrice;
+    private Long colorId;
     private String search;
 }

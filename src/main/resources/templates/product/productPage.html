@@ -26,7 +26,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <input class="form-control me-2 search" type="search" placeholder="Enter your search shoes"
-                       aria-label="Search" id="input-search" value="">
+                       aria-label="Search" id="input-search" value="a">
                 <i class="fas fa-search"></i>
             </div>
             <div class="login_area">
@@ -46,14 +46,14 @@
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategoryAll" checked value="all">
+                               id="flexRadioCategoryAll"  value="all">
                         <label class="form-check-label" for="flexRadioCategoryAll">
                             All
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategorySneakers" value="Sneakers">
+                               id="flexRadioCategorySneakers" checked value="Sneakers">
                         <label class="form-check-label" for="flexRadioCategorySneakers">
                             Sneakers
                         </label>
@@ -86,7 +86,7 @@
                 <h5>Price</h5>
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceAll" checked
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceAll"
                                value="all">
                         <label class="form-check-label" for="flexRadioPriceAll">
                             All
@@ -107,7 +107,7 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSandals"
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSandals" checked
                                value="3">
                         <label class="form-check-label" for="flexRadioPriceSandals">
                             $100 - $150
@@ -128,14 +128,14 @@
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorAll"
-                               style="background-color: blueviolet;" checked value="all">
+                               style="background-color: blueviolet;"  value="all">
                         <label class="form-check-label" for="flexRadioColorAll">
                             All
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorBlack"
-                               style="background-color: black;" value="black">
+                               style="background-color: black;" checked value="black">
                         <label class="form-check-label" for="flexRadioColorBlack">
                             Black
                         </label>
@@ -178,11 +178,11 @@
                 <h5>Recommended</h5>
                 <div role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAll" autocomplete="off"
-                           checked value="all">
+                             value="all">
                     <label class="btn btn-outline-secondary" for="brandAll">All Products</label>
 
                     <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandNike" autocomplete="off"
-                           value="Nike">
+                           checked value="Nike">
                     <label class="btn btn-outline-secondary" for="brandNike">Nike</label>
 
                     <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAdidas" autocomplete="off"
@@ -214,40 +214,38 @@
     async function getAllData() {
         const category = $('input[name="flexRadioCategory"]:checked').val();
         const color = $('input[name="flexRadioColor"]:checked').val();
-        const brand = $('input[name="brandSelect"]:checked').val();
+        const company = $('input[name="brandSelect"]:checked').val();
         const priceArray = parseInt($('input[name="flexRadioPrice"]:checked').val());
-        const priceMax = 0;
-        const
-        if(priceArray == 1){
-            const priceMax = 50;
-            const priceMin = 0;
-        }else if(priceArray == 2){
-            const priceMax = 100;
-            const priceMin = 50;
-        }else if(priceArray == 3){
-            const priceMax = 150;
-            const priceMin = 100;
-        }else if(priceArray == 4){
-            const priceMax = 10000000;
-            const priceMin = 150;
-        }else {
-            const priceMax = 10000000;
-            const priceMin = 0;
+        let maxPrice =0;
+         let minPrice = 10000;
+        if(priceArray === 1){
+            maxPrice = 50;
+            minPrice = 0;
+        }else if(priceArray === 2){
+            maxPrice = 100;
+            minPrice = 50;
+        }else if(priceArray === 3){
+            maxPrice = 150;
+            minPrice = 100;
+        }else if(priceArray === 4){
+            maxPrice = 10000;
+            minPrice = 150;
         }
         const search = $('#input-search').val();
         const obj = {
-            brand,
+            company,
             category,
-            priceMax,
-            priceMin,
+            maxPrice,
+            minPrice,
             color,
             search
         }
+        console.log(obj)
         return await $.ajax({
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         },
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8081/api/product',
             data: JSON.stringify(obj)
         })
@@ -260,6 +258,7 @@
     async function showData() {
         $('#product-data').empty()
         const products = await getAllData();
+        console.log(products)
         // var listCategory = []
         // var listColor = []
         // var listSearch = []
