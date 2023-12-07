@@ -26,7 +26,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <input class="form-control me-2 search" type="search" placeholder="Enter your search shoes"
-                       aria-label="Search" id="input-search" value="a">
+                       aria-label="Search" id="input-search" value="">
                 <i class="fas fa-search"></i>
             </div>
             <div class="login_area">
@@ -43,42 +43,7 @@
 
             <div class="categoy-check">
                 <h5>Category</h5>
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategoryAll"  value="all">
-                        <label class="form-check-label" for="flexRadioCategoryAll">
-                            All
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategorySneakers" checked value="Sneakers">
-                        <label class="form-check-label" for="flexRadioCategorySneakers">
-                            Sneakers
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategoryFlats" value="Flats">
-                        <label class="form-check-label" for="flexRadioCategoryFlats">
-                            Flats
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategorySandals" value="Sandals">
-                        <label class="form-check-label" for="flexRadioCategorySandals">
-                            Sandals
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
-                               id="flexRadioCategoryHeels" value="Heels">
-                        <label class="form-check-label" for="flexRadioCategoryHeels">
-                            Heels
-                        </label>
-                    </div>
+                <div class="form-group" id="renderCategory">
                 </div>
             </div>
 
@@ -86,7 +51,7 @@
                 <h5>Price</h5>
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceAll"
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceAll" checked
                                value="all">
                         <label class="form-check-label" for="flexRadioPriceAll">
                             All
@@ -107,7 +72,7 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSandals" checked
+                        <input class="form-check-input reload" type="radio" name="flexRadioPrice" id="flexRadioPriceSandals"
                                value="3">
                         <label class="form-check-label" for="flexRadioPriceSandals">
                             $100 - $150
@@ -125,85 +90,43 @@
 
             <div class="color-check">
                 <h5>Color</h5>
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorAll"
-                               style="background-color: blueviolet;"  value="all">
-                        <label class="form-check-label" for="flexRadioColorAll">
-                            All
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorBlack"
-                               style="background-color: black;" checked value="black">
-                        <label class="form-check-label" for="flexRadioColorBlack">
-                            Black
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorBlue"
-                               style="background-color: blue;" value="blue">
-                        <label class="form-check-label" for="flexRadioColorBlue">
-                            Blue
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorRed"
-                               style="background-color: red;" value="red">
-                        <label class="form-check-label" for="flexRadioColorRed">
-                            Red
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorWhite"
-                               style="background-color: white;" value="white">
-                        <label class="form-check-label" for="flexRadioColorWhite">
-                            White
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorGreen"
-                               style="background-color: green;" value="green">
-                        <label class="form-check-label" for="flexRadioColorGreen">
-                            Green
-                        </label>
-                    </div>
-
+                <div class="form-group" id="renderColor">
                 </div>
             </div>
 
         </div>
         <div class="col-10">
-            <div class="brand-select">
-                <h5>Recommended</h5>
-                <div role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAll" autocomplete="off"
-                             value="all">
-                    <label class="btn btn-outline-secondary" for="brandAll">All Products</label>
+            <div class="d-flex justify-content-between">
+                <div class="brand-select">
+                    <h5>Recommended</h5>
+                    <div role="group" aria-label="Basic radio toggle button group" id="renderCompany">
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="default" selected>---Tuỳ chọn sắp xếp---</option>
+                        <option value="asc">Giá tăng dần</option>
+                        <option value="desc">Giá giảm dần</option>
+                    </select>
+                </div>
+                <div class="mt-5">
+                    <nav aria-label="Page navigation example" style="border-bottom: none">
+                        <ul class="pagination" id="renderPageButton">
+<!--                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
 
-                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandNike" autocomplete="off"
-                           checked value="Nike">
-                    <label class="btn btn-outline-secondary" for="brandNike">Nike</label>
-
-                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAdidas" autocomplete="off"
-                           value="Adidas">
-                    <label class="btn btn-outline-secondary" for="brandAdidas">Adidas</label>
-
-                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandPuma" autocomplete="off"
-                           value="Puma">
-                    <label class="btn btn-outline-secondary" for="brandPuma">Puma</label>
-
-                    <input type="radio" class="btn-check brand reload" name="brandSelect" id="brandVans" autocomplete="off"
-                           value="Vans">
-                    <label class="btn btn-outline-secondary" for="brandVans">Vans</label>
+<!--                            <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+                        </ul>
+                    </nav>
                 </div>
             </div>
+
             <div class="main-product">
                 <h5>Products</h5>
                 <div class="container-fluid">
                     <div class="row" id="product-data">
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -211,13 +134,32 @@
 </div>
 <script>
     const idUser = 1;
+    let pageCurrent = 0;
+    const strAllCategory = `<div class="form-check">
+                                <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                                    id="flexRadioCategoryAll" checked value="all">
+                                <label class="form-check-label" for="flexRadioCategoryAll">
+                                    All
+                                </label>
+                            </div>`
+    const strAllCompany = `<input type="radio" class="btn-check brand reload" name="brandSelect" id="brandAll"
+                            checked value="all">
+                            <label class="btn btn-outline-secondary" for="brandAll">All Products</label>`
+    const strAllColor = `                    <div class="form-check">
+                        <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColorAll"
+                               style="background-color: blueviolet;" checked value="all">
+                        <label class="form-check-label" for="flexRadioColorAll">
+                            All
+                        </label>
+                    </div>`
+
     async function getAllData() {
         const category = $('input[name="flexRadioCategory"]:checked').val();
         const color = $('input[name="flexRadioColor"]:checked').val();
         const company = $('input[name="brandSelect"]:checked').val();
         const priceArray = parseInt($('input[name="flexRadioPrice"]:checked').val());
-        let maxPrice =0;
-         let minPrice = 10000;
+        let maxPrice =10000;
+         let minPrice = 0;
         if(priceArray === 1){
             maxPrice = 50;
             minPrice = 0;
@@ -232,22 +174,23 @@
             minPrice = 150;
         }
         const search = $('#input-search').val();
-        const obj = {
-            company,
-            category,
-            maxPrice,
-            minPrice,
-            color,
-            search
-        }
-        console.log(obj)
+        console.log(company,category,maxPrice,minPrice, color,search)
         return await $.ajax({
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         },
-            method: 'POST',
+            method: 'GET',
             url: 'http://localhost:8081/api/product',
-            data: JSON.stringify(obj)
+            data: {
+                company :company,
+                category: category,
+                maxPrice: maxPrice,
+                minPrice: minPrice,
+                color: color,
+                search: search,
+                page: pageCurrent,
+                size: 8
+            }
         })
     }
     async function getAllCartDetail() {
@@ -255,48 +198,76 @@
             url: 'http://localhost:8081/api/cartDetail'
         })
     }
+    async function getAllCompany() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/company'
+        })
+    }
+    async function getAllCategory() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/category'
+        })
+    }
+    async function getAllColor() {
+        return await $.ajax({
+            url: 'http://localhost:8081/api/color'
+        })
+    }
+    function renderCategory(category){
+        return `
+                 <div class="form-check">
+                    <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
+                               id="flexRadioCategory${category.nameCategory}" value="${category.nameCategory}">
+                    <label class="form-check-label" for="flexRadioCategory${category.nameCategory}">
+                            ${category.nameCategory}
+                    </label>
+                 </div>`
+    }
+    function renderColor(color){
+        return `<div class="form-check">
+                    <input class="form-check-input color reload" type="radio" name="flexRadioColor" id="flexRadioColor${color.nameColor}"
+                           style="background-color: ${color.nameColor};" value="${color.nameColor}">
+                     <label class="form-check-label" for="flexRadioColor${color.nameColor}">
+                            ${color.nameColor}
+                      </label>
+                 </div>`
+    }
+    async function renderAllColor(){
+        const  colors = await getAllColor();
+        $('#renderColor').empty()
+        $('#renderColor').append(strAllColor)
+        colors.forEach(item =>{
+            const strRenderColor = renderColor(item)
+            $('#renderColor').append(strRenderColor)
+        })
+    }
+    async function renderAllCompany(){
+        const companies = await getAllCompany();
+        $('#renderCompany').empty()
+        $('#renderCompany').append(strAllCompany)
+        companies.forEach(item =>{
+            const strRenderCompany = renderCompany(item)
+            $('#renderCompany').append(strRenderCompany)
+        })
+    }
+    function renderCompany(company){
+        return `<input type="radio" class="btn-check brand reload" name="brandSelect" id="brand${company.nameCompany}"
+                           value="${company.nameCompany}">
+                <label class="btn btn-outline-secondary" for="brand${company.nameCompany}">${company.nameCompany}</label>`
+    }
+    async function renderAllCategory(){
+        const categories = await getAllCategory();
+        $('#renderCategory').empty()
+        $('#renderCategory').append(strAllCategory)
+        categories.forEach(element =>{
+            const strRenderCategory = renderCategory(element)
+            $('#renderCategory').append(strRenderCategory)
+        })
+    }
     async function showData() {
         $('#product-data').empty()
         const products = await getAllData();
-        console.log(products)
-        // var listCategory = []
-        // var listColor = []
-        // var listSearch = []
-        // var listBrand = []
-        // var listPrice = []
-        // products.forEach(element => {
-        //     if (category === 'all') {
-        //         listCategory.push(element)
-        //     } else if (element.category.nameCategory === category) {
-        //         listCategory.push(element)
-        //     }
-        // })
-        // listCategory.forEach(element => {
-        //     if (color === 'all') {
-        //         listColor.push(element)
-        //     } else if (element.color.nameColor === color) {
-        //         listColor.push(element)
-        //     }
-        // })
-        // listColor.forEach(element => {
-        //     if (brand === 'all') {
-        //         listBrand.push(element)
-        //     } else if (element.company.nameCompany === brand)
-        //         listBrand.push(element)
-        // })
-        // listBrand.forEach(element => {
-        //     if (element.title.toLowerCase().includes(search.toLowerCase())) {
-        //         listSearch.push(element)
-        //     }
-        // })
-        // listSearch.forEach(element => {
-        //     if (price === "all") {
-        //         listPrice.push(element)
-        //     } else if (checkPrice(parseInt(element.prevPrice)) == parseInt(price)) {
-        //         listPrice.push(element)
-        //     }
-        // })
-        products.forEach(element => {
+        products.content.forEach(element => {
             const strRender = renderProduct(element)
             $('#product-data').prepend(strRender)
             const starIndex = parseInt(element.star)
@@ -312,6 +283,13 @@
             const idProduct = $(this).attr('id')
             addToCart(idProduct)
         })
+        $('#renderPageButton').empty()
+        for (let i=0; i<products.totalPages; i++){
+            const  strRenderPage = `<li class="page-item btn-get-page"><a class="page-link">${i+1}</a></li>`
+            $('#renderPageButton').append(strRenderPage)
+            }
+
+
     }
     function goToCartPage(){
         window.location.href = 'http://localhost:8081/cart'
@@ -361,14 +339,11 @@
             $('#product-data').empty()
             showData();
         });
-        $('.search').on('change', function () {
+        $('.search').on('input', function () {
             $('#product-data').empty()
             showData();
         })
-        // $('.bt-add-to-cart').on('click', function (){
-        //     const id = this.querySelector('input[name="value_product"]').innerHTML
-        //     addToCart(parseInt(id))
-        // })
+
     }
 
   async  function addToCart(idProduct){
@@ -405,8 +380,11 @@
         } else return "4"
     }
     $(async () => {
+        await renderAllCategory()
+        await renderAllCompany()
+        await renderAllColor()
         await showData()
-        addEvent()
+        await addEvent()
     })
 </script>
 </body>
