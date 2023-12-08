@@ -117,3 +117,6 @@ i {
 .hide{
   display: none;
 }
+.btn-get-page{
+  cursor: pointer;
+}
