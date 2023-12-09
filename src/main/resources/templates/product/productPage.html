@@ -188,7 +188,9 @@
                 color: color,
                 search: search,
                 page: pageCurrent,
-                size: 8
+                size: 8,
+                sort : "newPrice",
+                direction : 'ASC'
             }
         })
     }
@@ -266,13 +268,13 @@
     async function showData() {
         $('#product-data').empty()
         const products = await getAllData();
-        products.content.forEach(element => {
+        products.content.forEach(element => function (){
             const strRender = renderProduct(element)
-            $('#product-data').prepend(strRender)
+            strRender.
+            $('#product-data').append(strRender)
             const starIndex = parseInt(element.star)
-            for (let i = 0; i < starIndex; i++) {
-                $('#star-counter').prepend(renderStar())
-            }
+            renderStar()
+
         });
            await showCartQuantity();
         $('.btn-add-cart').on('click', function (){
@@ -326,8 +328,12 @@
             $('.fa-shopping-cart').addClass('btn-add-cart')
         }
     }
-    function renderStar() {
-        return `<i class="fas fa-star" style="color: #fbff00;"></i>`
+    function renderStar(quantityStar) {
+        var strStar = ''
+        for (let i = 0; i < quantityStar; i++) {
+           strStar += `<i class="fas fa-star" style="color: #fbff00;"></i>`
+        }
+        return strStar
     }
     function renderProduct(product) {
         return `  <div class="col-3 product-cell">
@@ -338,7 +344,7 @@
                       </div>
                       <h5 class="card-title">${product.title}</h5>
                       <div class="review">
-                            <div class="star-count" id="star-counter">
+                            <div class="star-count star-counter">
                           </div>
                           <div class="rieviewer-count">
                             (${product.reviews} reviewer)
