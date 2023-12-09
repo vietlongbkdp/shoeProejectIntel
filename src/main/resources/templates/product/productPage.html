@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -103,17 +103,16 @@
                     </div>
                 </div>
                 <div class="mt-5">
-                    <select class="form-select" aria-label="Default select example">
-                        <option value="default" selected>---Tuỳ chọn sắp xếp---</option>
-                        <option value="asc">Giá tăng dần</option>
-                        <option value="desc">Giá giảm dần</option>
+                    <select class="form-select" id="selected-sortField" aria-label="Default select example">
+                        <option value="title">Sắp xếp theo tên</option>
+                        <option value="newPrice">Sắp xếp theo giá</option>
                     </select>
                 </div>
                 <div class="mt-5">
-                    <nav aria-label="Page navigation example" style="border-bottom: none">
-                        <ul class="pagination" id="renderPageButton">
-                        </ul>
-                    </nav>
+                    <select class="form-select" id="selected-sortDirection" aria-label="Default select example">
+                        <option value="asc">Tăng dần</option>
+                        <option value="desc">Giảm dần</option>
+                    </select>
                 </div>
             </div>
 
@@ -125,13 +124,18 @@
                 </div>
 
             </div>
+            <div class="mt-5 fixed-bottom d-flex justify-content-center mb-5">
+                <nav aria-label="Page navigation example" style="border-bottom: none">
+                    <ul class="pagination" id="renderPageButton">
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>
-</div>
 <script>
     // const idUser = 1;
-    var pageCurrent = 0;
+    let pageCurrent = 0;
     const strAllCategory = `<div class="form-check">
                                 <input class="form-check-input category reload" type="radio" name="flexRadioCategory"
                                     id="flexRadioCategoryAll" checked value="all">
@@ -149,14 +153,16 @@
                             All
                         </label>
                     </div>`
-    // const strPrviousPage = `<li class="page-item btn-get-page" id="btn-previousPage"><a class="page-link" href="#">Previous</a></li>`
-    // const strNextPage = `<li class="page-item btn-get-page" id="btn-nextPage"><a class="page-link" href="#">Next</a></li>`
+    const strPrviousPage = `<li class="page-item btn-get-page-pn" id="btn-previousPage"><a class="page-link" href="#">Previous</a></li>`
+    const strNextPage = `<li class="page-item btn-get-page-pn" id="btn-nextPage"><a class="page-link" href="#">Next</a></li>`
 
     async function getAllData() {
         const category = $('input[name="flexRadioCategory"]:checked').val();
         const color = $('input[name="flexRadioColor"]:checked').val();
         const company = $('input[name="brandSelect"]:checked').val();
         const priceArray = parseInt($('input[name="flexRadioPrice"]:checked').val());
+        const strField = $('#selected-sortField').find(":selected").val()
+        const strSort = $('#selected-sortDirection').find(":selected").val()
         let maxPrice =10000;
          let minPrice = 0;
         if(priceArray === 1){
@@ -173,7 +179,7 @@
             minPrice = 150;
         }
         const search = $('#input-search').val();
-        console.log(company,category,maxPrice,minPrice, color,search)
+        console.log(company,category,maxPrice,minPrice, color,search, strField, strSort)
         return await $.ajax({
         headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -189,8 +195,8 @@
                 search: search,
                 page: pageCurrent,
                 size: 8,
-                sort : "newPrice",
-                direction : 'ASC'
+                sortField : strField,
+                direction : strSort
             }
         })
     }
@@ -214,6 +220,10 @@
             url: 'http://localhost:8081/api/color'
         })
     }
+    $('.form-select').on('change', function (){
+        pageCurrent = 0
+        showData()
+    })
     function renderCategory(category){
         return `
                  <div class="form-check">
@@ -268,13 +278,9 @@
     async function showData() {
         $('#product-data').empty()
         const products = await getAllData();
-        products.content.forEach(element => function (){
+        products.content.forEach(function (element){
             const strRender = renderProduct(element)
-            strRender.
             $('#product-data').append(strRender)
-            const starIndex = parseInt(element.star)
-            renderStar()
-
         });
            await showCartQuantity();
         $('.btn-add-cart').on('click', function (){
@@ -285,36 +291,35 @@
             addToCart(idProduct)
         })
         $('#renderPageButton').empty()
-        // $('#renderPageButton').append(strPrviousPage)
-
-        for (let i=0; i<products.totalPages; i++){
-            const  strRenderPage = `<li class="page-item btn-get-page"><a class="page-link ${i == pageCurrent ? 'active' : ''}">${i+1}</a></li>`
-            $('#renderPageButton').append(strRenderPage)
+        if(products.totalPages > 0){
+            $('#renderPageButton').append(strPrviousPage)
+            for (let i=0; i<products.totalPages; i++){
+                const  strRenderPage = `<li class="page-item btn-get-page"><a class="page-link ${i == pageCurrent ? 'active' : ''}">${i+1}</a></li>`
+                $('#renderPageButton').append(strRenderPage)
             }
-        // $('#renderPageButton').append(strNextPage)
-        // $('#btn-previousPage').on('click', function (){
-        //     pageCurrent = parseInt(document.querySelector('.active').innerText)
-        //     console.log(pageCurrent)
-        //     if(pageCurrent > 1){
-        //         pageCurrent--
-        //         showData()
-        //     }
-        // })
-        // $('#btn-nextPage').on('click', function (){
-        //     pageCurrent = parseInt(document.querySelector('.active').innerText)
-        //     console.log(pageCurrent)
-        //     if(pageCurrent - 1 < products.totalPages){
-        //         pageCurrent++
-        //         showData()
-        //     }
-        // })
-        $('.btn-get-page').on("click", function (){
-            pageCurrent = parseInt(this.querySelector('.page-link').innerText) - 1
-            showData()
-        })
-
+            $('#renderPageButton').append(strNextPage)
+            $('.btn-get-page').on("click", function (){
+                pageCurrent = parseInt(this.querySelector('.page-link').innerText) - 1
+                showData()
+            })
+            $('#btn-previousPage').on("click", function (){
+                pageCurrent = parseInt(document.querySelector('.active').innerText) -1
+                if(pageCurrent >= 1){
+                    pageCurrent--
+                    showData()
+                }
+            })
+            $('#btn-nextPage').on("click", function (){
+                pageCurrent = parseInt(document.querySelector('.active').innerText) -1
+                if(pageCurrent < products.totalPages-1){
+                    pageCurrent++
+                    showData()
+                }
+            })
+        }
 
     }
+
     function goToCartPage(){
         window.location.href = 'http://localhost:8081/cart'
     }
@@ -322,18 +327,10 @@
         const cart = await getAllCartDetail();
         $('.fa-shopping-cart').empty()
         $('.fa-shopping-cart').removeClass('btn-add-cart')
-        // console.log(cart.length)
         if(cart.length != 0){
             $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
             $('.fa-shopping-cart').addClass('btn-add-cart')
         }
-    }
-    function renderStar(quantityStar) {
-        var strStar = ''
-        for (let i = 0; i < quantityStar; i++) {
-           strStar += `<i class="fas fa-star" style="color: #fbff00;"></i>`
-        }
-        return strStar
     }
     function renderProduct(product) {
         return `  <div class="col-3 product-cell">
@@ -344,7 +341,11 @@
                       </div>
                       <h5 class="card-title">${product.title}</h5>
                       <div class="review">
-                            <div class="star-count star-counter">
+                            <div class="star-count">
+                                    <i class="fas fa-star" style="color: #ff7800;"></i>
+                                    <i class="fas fa-star" style="color: #ff7800;"></i>
+                                    <i class="fas fa-star" style="color: #ff7800;"></i>
+                                    <i class="fas fa-star" style="color: #ff7800;"></i>
                           </div>
                           <div class="rieviewer-count">
                             (${product.reviews} reviewer)
@@ -364,16 +365,16 @@
     }
     function addEvent() {
         $('.reload').on('click', function () {
+            pageCurrent = 0;
             $('#product-data').empty()
             showData();
         });
         $('.search').on('input', function () {
+            pageCurrent = 0;
             $('#product-data').empty()
             showData();
         })
-
     }
-
   async  function addToCart(idProduct){
         const cartDetailCreDTO ={
             idProduct
@@ -394,18 +395,6 @@
             alert("Lỗi, thêm thất bại")
            showCartQuantity()
         })
-    }
-
-    function checkPrice(price) {
-        if (price > 0 && price <= 50) {
-            return "1"
-        }
-        if (price <= 100) {
-            return "2"
-        }
-        if (price <= 150) {
-            return "3"
-        } else return "4"
     }
     $(async () => {
         await renderAllCategory()
