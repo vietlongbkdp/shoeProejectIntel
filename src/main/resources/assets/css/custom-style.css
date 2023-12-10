@@ -1,4 +1,7 @@
-
+body {
+  /*background: linear-gradient(to right, #0f2027, #203a43, #2c5364);*/
+  font-family: 'Poppins', sans-serif;
+}
 i {
     font-size: 1.2rem;
     margin-right: 0.5rem;
@@ -118,5 +121,11 @@ i {
   display: none;
 }
 .btn-get-page{
+  cursor: pointer;
+}
+.btn-add-cart{
+  cursor: pointer;
+}
+.btn-account{
   cursor: pointer;
 }

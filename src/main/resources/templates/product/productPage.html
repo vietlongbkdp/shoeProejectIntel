@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/assets/css/custom-style.css">
     <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/jQuery.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -33,7 +34,7 @@
                 <i class="fas fa-shopping-cart">
 
                 </i>
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user btn-account"></i>
             </div>
         </div>
     </nav>
@@ -223,6 +224,9 @@
     $('.form-select').on('change', function (){
         pageCurrent = 0
         showData()
+    })
+    $('.btn-account').on('click', function (){
+        window.location.href = 'http://localhost:8081/products/management'
     })
     function renderCategory(category){
         return `

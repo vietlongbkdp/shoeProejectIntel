@@ -11,4 +11,8 @@ public class ProductController {
     public String showProductPage(){
         return "/product/productPage";
     }
+    @GetMapping("/management")
+    public String showManagement(){
+        return "/admin/productManagement";
+    }
 }

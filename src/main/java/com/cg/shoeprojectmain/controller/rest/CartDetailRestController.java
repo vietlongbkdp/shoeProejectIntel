@@ -54,4 +54,11 @@ public class CartDetailRestController {
         cartDetailRepository.deleteById(idCartDetail);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/update/{idCartDetail}")
+    public ResponseEntity<?> updateCartDetail(@PathVariable Long idCartDetail, @RequestParam Integer quantity){
+            CartDetail cartDetail = cartDetailRepository.findById(idCartDetail).get();
+            cartDetail.setQuantity(quantity);
+            cartDetailRepository.save(cartDetail);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe</title>
+    <link rel="icon" type="image/x-icon" href="/assets/image/favicon.ico">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/fontawesome-5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/assets/js/jQuery.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <!-- Start TopBar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="back-home">
+                <i class="fas fa-cart-plus"></i>
+                <a class="navbar-brand" href="#" ()>Shoe Ecommerce</a>
+            </div>
+
+            <div class="login_area">
+                <i class="fas fa-shopping-cart">
+                </i>
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </nav>
+    <!-- End TopBar -->
+    <div class="row">
+        <div class="col-2 side-bar">
+            <div>
+                <h3>Menu</h3>
+                </div>
+            </div>
+
+            <div class="main-product">
+                <h5>Products</h5>
+                <div class="container-fluid">
+                    <div class="row" id="product-data">
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-5 fixed-bottom d-flex justify-content-center mb-5">
+                <nav aria-label="Page navigation example" style="border-bottom: none">
+                    <ul class="pagination" id="renderPageButton">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+<script>
+    $('.back-home').on('click', function (){
+        window.location.href = 'http://localhost:8081/products'
+    })
+</script>
+</body>

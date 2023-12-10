@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/assets/css/custom-style.css">
     <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/jQuery.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -74,7 +75,7 @@
                 </div>
             </div>
             <div class="form-info-customer">
-                <form>
+                <form class="form-infoCustomer" method="post">
                     <h3>Customer Info</h3>
                     <div class="row mb-3">
                         <div style="margin-bottom: 5px">FullName</div>
@@ -101,7 +102,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                    <button type="submit" class="btn btn-success">CHECK OUT</button>
+                    <button type="button" class="btn btn-submit-form btn-success">CHECK OUT</button>
                     </div>
                 </form>
             </div>
@@ -116,7 +117,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Do you want delete this product ?
+                    Do you want to delete this product ?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -132,6 +133,22 @@
     async function getAllCartDetail() {
         return await $.ajax({
             url: 'http://localhost:8081/api/cartDetail'
+        })
+    }
+    function updateCartDetail(idCartDetail, quantity){
+        return $.ajax({
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            method: "GET",
+            url: 'http://localhost:8081/api/cartDetail/update/' + idCartDetail,
+            data: {
+                quantity : quantity
+            }
+        }).done((data) =>{
+            console.log("Updated your cart!")
+        }).fail((err) =>{
+            console.log("Update unsuccessfully!")
         })
     }
     async function showCart(){
@@ -212,6 +229,7 @@
             document.getElementById(strId).innerText = quantity;
             getAmount()
             getSubTotal()
+            updateCartDetail(idCartDetail, quantity)
         }
     }
     function addCd(idCartDetail){
@@ -224,8 +242,12 @@
             document.getElementById(strId).innerText = quantity;
             getAmount()
             getSubTotal()
+            updateCartDetail(idCartDetail, quantity)
         }
     }
+    $('.btn-submit-form').on('click', function (){
+        $('.form-infoCustomer').submit()
+    })
     showCart()
 
 </script>
