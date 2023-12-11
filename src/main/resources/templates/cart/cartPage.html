@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/assets/css/custom-style.css">
     <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/jQuery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
@@ -79,22 +81,22 @@
                     <h3>Customer Info</h3>
                     <div class="form-group my-2">
                         <label for="fullName" class="form-label">Full Name</label>
-                        <input id="fullName" name="fullName" type="text" placeholder="Full Name">
+                        <input class="input-area" id="fullName" name="fullName" type="text" placeholder="Full Name">
                         <span class="error-message"></span>
                     </div>
                     <div class="form-group my-3">
                         <label for="address" class="form-label">Address</label>
-                        <input id="address" name="address" type="text" placeholder="Address">
+                        <input class="input-area" id="address" name="address" type="text" placeholder="Address">
                         <span class="error-message"></span>
                     </div>
                     <div class="form-group my-3">
                         <label for="email" class="form-label">Email</label>
-                        <input id="email" name="email" type="email" placeholder="Email">
+                        <input class="input-area" id="email" name="email" type="email" placeholder="Email">
                         <span class="error-message"></span>
                     </div>
                     <div class="form-group my-3">
                         <label for="mobile" class="form-label">Mobile</label>
-                        <input id="mobile" name="mobile" type="tel" placeholder="Mobile">
+                        <input class="input-area" id="mobile" name="mobile" type="tel" placeholder="Mobile">
                         <span class="error-message"></span>
                     </div>
                     <div class="form-group my-3">
@@ -142,9 +144,9 @@
                 quantity : quantity
             }
         }).done((data) =>{
-            console.log("Updated your cart!")
+            toastr.success('Updated your Cart!');
         }).fail((err) =>{
-            console.log("Update unsuccessfully!")
+            toastr.error("Update Cart Fail!")
         })
     }
     async function showCart(){
@@ -183,10 +185,10 @@
             url: 'http://localhost:8081/api/cartDetail/delete/' + idCartDetail,
             method: 'DELETE',
         }).done((data) =>{
-            alert("Xoá thành công!");
+            toastr.success('Delete Successfully!');
             showCart()
         }).fail((err) =>{
-            alert("Thất bại!")
+            toastr.error('Delete failed!')
         })
     }
     function renderCart(cartDetail){
@@ -219,7 +221,7 @@
         let strId = 'quantity-CD-' + idCartDetail;
         var quantity = parseInt(document.getElementById(strId).innerText)
         if(quantity <= 1){
-            alert("You can't buy less 1 product/oder")
+            toastr.error("You can't buy less 1 product/oder")
         }else{
             quantity--
             document.getElementById(strId).innerText = quantity;
@@ -232,7 +234,7 @@
         let strId = 'quantity-CD-' + idCartDetail;
         var quantity = parseInt(document.getElementById(strId).innerText)
         if(quantity >= 10){
-            alert("You can't buy more 10 product/oder")
+            toastr.error("You can't buy more 10 product/oder")
         }else{
             quantity++
             document.getElementById(strId).innerText = quantity;

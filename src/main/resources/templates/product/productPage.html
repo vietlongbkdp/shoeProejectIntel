@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/assets/css/custom-style.css">
     <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/jQuery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
@@ -118,19 +120,23 @@
             </div>
 
             <div class="main-product">
-                <h5>Products</h5>
+                <div class="d-flex justify-content-between">
+                    <h5>Products</h5>
+                    <div class="d-flex justify-content-center mt-3">
+                        <nav aria-label="Page navigation example" style="border-bottom: none">
+                            <ul class="pagination" id="renderPageButton">
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
                 <div class="container-fluid">
                     <div class="row" id="product-data">
                     </div>
                 </div>
 
+
             </div>
-            <div class="mt-5 fixed-bottom d-flex justify-content-center mb-5">
-                <nav aria-label="Page navigation example" style="border-bottom: none">
-                    <ul class="pagination" id="renderPageButton">
-                    </ul>
-                </nav>
-            </div>
+
         </div>
     </div>
 </div>
@@ -393,10 +399,10 @@
                 data: JSON.stringify(cartDetailCreDTO)
             }
         ).done((data) =>{
-            alert("Đã thêm vào giỏ hàng")
+            toastr.success("Add to cart successfully!")
            showCartQuantity()
         }).fail((err) =>{
-            alert("Lỗi, thêm thất bại")
+            toastr.error("Add to cart unsuccessfully!")
            showCartQuantity()
         })
     }
