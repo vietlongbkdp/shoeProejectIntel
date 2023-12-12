@@ -9,8 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 @Setter
 @Getter
 @NoArgsConstructor
@@ -29,7 +28,7 @@ public class Order {
     private BigDecimal totalAmount;
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createAt;
+    private LocalDate createAt;
     private String customerName;
     private String address;
     private String phone;

@@ -159,3 +159,36 @@ i {
   font-weight: bold;
   font-size: 13px;
 }
+.data-order-table td{
+  font-size: 13px;
+}
+.record-detail{
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.title-record{
+  font-weight: bold;
+}
+.detail-oder-show{
+  border: solid grey 1px;
+  border-radius: 16px;
+}
+.info-order h6{
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.info-order{
+  border-top: solid grey 0.5px;
+  padding-top: 1rem;
+}
+.detail-oder-show h5{
+  font-weight: bold;
+}
+.info-order td{
+  font-size: 14px;
+}
+.hide{
+  display: none;
+}

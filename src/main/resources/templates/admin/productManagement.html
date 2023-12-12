@@ -48,11 +48,10 @@
                 <h5 class="fw-bold">Order Management</h5>
                 <div class="row">
                     <div class="col-12">
-                        <table class="table table-hover">
+                        <table class="table table-hover table-order">
                             <thead>
                             <tr class="header-table-oder">
                                 <th scope="col">Order Date</th>
-                                <th scope="col">Total Products</th>
                                 <th scope="col">Shipping</th>
                                 <th scope="col">Total Amount</th>
                                 <th scope="col">Status</th>
@@ -60,10 +59,58 @@
                                 <th scope="col">Actions </th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="data-order-table">
 
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-5 detail-oder-show hide">
+                        <div class="d-flex justify-content-between">
+                            <h5>Order Detail</h5>
+                            <i class="far fa-times-circle close-form-show" style="margin-top: 1rem; cursor: pointer"></i></div>
+
+                        <div class="info-order">
+                            <h6>Order Information</h6>
+                            <div class="record-detail">
+                                <p>Subtotal</p>
+                                <p class="title-record">$600</p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Shipping</p>
+                                <p class="title-record">Free</p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Total</p>
+                                <p class="title-record">$600</p>
+                            </div>
+                        </div>
+
+                        <div class="info-order">
+                            <h6>Customer Information</h6>
+                            <div class="record-detail">
+                                <p>Fullname</p>
+                                <p class="title-record">Khoa Nguyễn</p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Email</p>
+                                <p class="title-record">nguyenhuuanhkhoa@gmail.com</p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Mobile</p>
+                                <p class="title-record">+1 (996) 449-4832</p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Address</p>
+                                <p class="title-record">28 Nguyễn Tri Phương, Phú Nhuận, TP Huế</p>
+                            </div>
+                        </div>
+                        <div class="info-order">
+                            <h6>Order details</h6>
+                            <table class="table table-hover">
+                                <tbody class="data-detail-table">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,12 +125,57 @@
     }
     async function getAllOder(){
         return await $.ajax({
-            url: 'http://localhost:8081/api/customerInfo'
+            url: 'http://localhost:8081/api/order'
+        })
+    }
+    async function getAllOrderDetail(idOrder){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/order/' + idOrder
         })
     }
     async function addData(){
         const customerPresent = await getCustomerPresent();
         $('#userPresent').append(customerPresent.fullName)
+        const orders = await getAllOder();
+        orders.forEach(item =>{
+            const strRender = renderTable0rder(item);
+            $('.data-order-table').append(strRender);
+        })
+    }
+   function renderTable0rder(order){
+        return `            <tr>
+                                <td>${order.createAt}</td>
+                                <td>Free</td>
+                                <td>${order.totalAmount}</td>
+                                <td style="background-color: #4d5154; color: white">Confirming</td>
+                                <td>${order.customerName}</td>
+                                <td style="cursor: pointer"><i class="fas fa-info-circle" onclick="showDetailOder(${order.id})" ></i></td>
+                            </tr>`
+    }
+    async function showDetailOder(idOrder){
+        const tableArea = document.querySelector('.table-order').parentElement
+        tableArea.classList.replace('col-12', 'col-7')
+        document.querySelector('.detail-oder-show').classList.remove('hide')
+        const orderDetails = await getAllOrderDetail(idOrder)
+        $('.data-detail-table').empty()
+        orderDetails.forEach(item =>{
+            const strRenderDT = renderDataOrderDetail(item)
+            $('.data-detail-table').append(strRenderDT)
+        })
+    }
+    $('.close-form-show').on('click', function (){
+        const tableArea = document.querySelector('.table-order').parentElement
+        tableArea.classList.replace('col-7', 'col-12')
+        document.querySelector('.detail-oder-show').classList.add('hide')
+    })
+    function renderDataOrderDetail(item){
+        const amount = item.pricePresent *item.quantity
+        return`<tr>
+                    <td style="text-align: left"><img src="${item.product.img}" style="width: 7rem; height: 4rem; margin-left: 0; padding-right: 1rem"><span>${item.product.title}</span></td>
+                    <td>${item.quantity}</td>
+                    <td>${item.pricePresent}</td>
+                    <td>${amount}</td>
+               </tr>`
     }
     $('.back-home').on('click', function (){
         window.location.href = 'http://localhost:8081/products'

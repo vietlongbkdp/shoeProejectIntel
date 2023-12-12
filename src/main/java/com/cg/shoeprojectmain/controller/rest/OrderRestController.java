@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,7 +25,17 @@ public class OrderRestController {
     private OrderRepository orderRepository;
     @Autowired
     private OrderDetailRepository orderDetailRepository;
-
+    @GetMapping
+    public ResponseEntity<?> getAllOrderByUser(){
+        Long idUser =1L;
+        List<Order> orders = orderRepository.findAllByCustomerInfo_Id(idUser);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+    @GetMapping("/{idOrder}")
+    public ResponseEntity<?> countOrderDetailByIdOrder(@PathVariable Long idOrder){
+            List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrder_Id(idOrder);
+        return new ResponseEntity<>(orderDetails, HttpStatus.OK);
+    }
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody CustomerInfo customerInfo) {
         Long idUser = customerInfo.getId();
