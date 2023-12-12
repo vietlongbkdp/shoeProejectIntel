@@ -21,45 +21,76 @@
     <!-- Start TopBar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <div class="back-home">
+            <div>
                 <i class="fas fa-cart-plus"></i>
-                <a class="navbar-brand" href="#" ()>Shoe Ecommerce</a>
+                <a class="navbar-brand fs-6">Dashoard</a>
             </div>
 
-            <div class="login_area">
-                <i class="fas fa-shopping-cart">
-                </i>
-                <i class="fas fa-user"></i>
-            </div>
+            <div class="login_area"><a href="/products" class="fst-italic back-home" id="userPresent"> <i class="fas fa-sign-out-alt fs-6"></i></a></div>
         </div>
     </nav>
     <!-- End TopBar -->
     <div class="row">
-        <div class="col-2 side-bar">
-            <div>
-                <h3>Menu</h3>
-                </div>
-            </div>
+        <div class="col-2 side-bar-custom">
 
-            <div class="main-product">
-                <h5>Products</h5>
+            <div>
+                <h5 class="my-3">Menu</h5>
+                <h6 class="my-3 fs-6 btn-active-selected"><i class="fas fa-shopping-cart"></i> Order List</h6>
+                <h6 class="my-3 fs-6"><i class="fas fa-tasks"></i> Products</h6>
                 <div class="container-fluid">
                     <div class="row" id="product-data">
                     </div>
                 </div>
-
             </div>
-            <div class="mt-5 fixed-bottom d-flex justify-content-center mb-5">
-                <nav aria-label="Page navigation example" style="border-bottom: none">
-                    <ul class="pagination" id="renderPageButton">
-                    </ul>
-                </nav>
+        </div>
+        <div class="col-10">
+            <div class="main-product">
+                <h5 class="fw-bold">Order Management</h5>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="header-table-oder">
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Total Products</th>
+                                <th scope="col">Shipping</th>
+                                <th scope="col">Total Amount</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Actions </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
 <script>
+    async function getCustomerPresent(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/customerInfo'
+        })
+    }
+    async function getAllOder(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/customerInfo'
+        })
+    }
+    async function addData(){
+        const customerPresent = await getCustomerPresent();
+        $('#userPresent').append(customerPresent.fullName)
+    }
     $('.back-home').on('click', function (){
         window.location.href = 'http://localhost:8081/products'
     })
+    $(async () => {
+        await addData()
+    })
+
 </script>
 </body>

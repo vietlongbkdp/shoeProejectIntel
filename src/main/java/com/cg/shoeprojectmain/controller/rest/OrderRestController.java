@@ -33,11 +33,16 @@ public class OrderRestController {
     public ResponseEntity<?> createOrder(@RequestBody CustomerInfo customerInfo) {
         Long idUser = customerInfo.getId();
         CustomerInfo customer = customerInforRepossitory.findById(idUser).get();
+        customer.setFullName(customerInfo.getFullName()).setEmail(customerInfo.getEmail())
+                .setAddress(customerInfo.getAddress())
+                .setMobile(customerInfo.getMobile());
         customerInforRepossitory.save(customer);
         Cart cart = cartRepository.findCartByCustomerInfo_Id(idUser);
         BigDecimal totalAmount = cartDetailRepository.getTotalAmountCart(cart.getId());
         Order order = new Order().setCustomerInfo(customerInforRepossitory.findById(idUser).get())
-                .setTotalAmount(totalAmount);
+                .setTotalAmount(totalAmount).setCustomerName(customerInforRepossitory.findById(idUser).get().getFullName())
+                .setAddress(customerInforRepossitory.findById(idUser).get().getAddress())
+                        .setPhone(customerInforRepossitory.findById(idUser).get().getMobile());
         orderRepository.save(order);
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCart_Id(cart.getId());
         for (CartDetail cd: cartDetails) {

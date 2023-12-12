@@ -144,3 +144,18 @@ i {
   width: 20rem;
   height: 3rem;
 }
+.side-bar-custom h5{
+  font-weight: bold;
+}
+.side-bar-custom h6{
+  padding: 0.5rem;
+}
+.btn-active-selected{
+  background-color: #b9dcff;
+}
+.header-table-oder th{
+  background-color: #2686e6;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+}
