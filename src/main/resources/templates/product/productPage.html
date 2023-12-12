@@ -34,9 +34,9 @@
             </div>
             <div class="login_area">
                 <i class="fas fa-shopping-cart">
-
                 </i>
                 <i class="fas fa-user btn-account"></i>
+                <span id="nameCustomerLogin"></span>
             </div>
         </div>
     </nav>
@@ -207,6 +207,12 @@
             }
         })
     }
+    async function getCustomerPresent(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/customerInfo'
+        })
+    }
+
     async function getAllCartDetail() {
         return await $.ajax({
             url: 'http://localhost:8081/api/cartDetail'
@@ -293,9 +299,7 @@
             $('#product-data').append(strRender)
         });
            await showCartQuantity();
-        $('.btn-add-cart').on('click', function (){
-            goToCartPage()
-        })
+
         $('.bt-add-to-cart').on('click', function(){
             const idProduct = $(this).attr('id')
             addToCart(idProduct)
@@ -341,6 +345,9 @@
             $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
             $('.fa-shopping-cart').addClass('btn-add-cart')
         }
+        $('.btn-add-cart').on('click', function (){
+            goToCartPage()
+        })
     }
     function renderProduct(product) {
         return `  <div class="col-3 product-cell">
@@ -373,7 +380,7 @@
                   </div>
               </div>`
     }
-    function addEvent() {
+    async function addEvent() {
         $('.reload').on('click', function () {
             pageCurrent = 0;
             $('#product-data').empty()
@@ -384,6 +391,8 @@
             $('#product-data').empty()
             showData();
         })
+        const customerPresent = await  getCustomerPresent();
+        $('#nameCustomerLogin').text(customerPresent.fullName)
     }
   async  function addToCart(idProduct){
         const cartDetailCreDTO ={

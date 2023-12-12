@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/assets/css/custom-style.css">
     <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/assets/js/jQuery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
@@ -21,21 +22,16 @@
     <!-- Start TopBar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <i class="fas fa-cart-plus"></i>
-            <a class="navbar-brand" href="/products">Shoe Ecommerce</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <input class="form-control me-2 search" type="search" placeholder="Enter your search shoes"
-                       aria-label="Search" id="input-search" value="">
-                <i class="fas fa-search"></i>
+            <div class="back-home">
+                <i class="fas fa-cart-plus"></i>
+                <a class="navbar-brand" href="/products" ()>Shoe Ecommerce</a>
             </div>
+
             <div class="login_area">
-                <i class="fas fa-shopping-cart btn-add-cart">
+                <i class="fas fa-shopping-cart">
                 </i>
                 <i class="fas fa-user"></i>
+                <span id="userPresent"></span>
             </div>
         </div>
     </nav>
@@ -68,7 +64,7 @@
                     </div>
                     <div class="payment-details">
                         <div >Shipping</div>
-                        <div style="font-weight: bold">$5</div>
+                        <div style="font-weight: bold">Free</div>
                     </div>
                     <div class="total-payment-details">
                         <div>Total</div>
@@ -79,7 +75,8 @@
             <div class="form-info-customer">
                 <form class="form-infoCustomer" method="post">
                     <h3>Customer Info</h3>
-                    <div class="form-group my-2">
+                    <input hidden id="id" type="number">
+                    <div class="form-group my-3">
                         <label for="fullName" class="form-label">Full Name</label>
                         <input class="input-area" id="fullName" name="fullName" type="text" placeholder="Full Name">
                         <span class="error-message"></span>
@@ -103,24 +100,6 @@
                     <button type="button" class="btn btn-submit-form btn-success">CHECK OUT</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-<!--&lt;!&ndash;    Modal confirm Delete&ndash;&gt;-->
-    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Do you want to delete this product ?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-primary" id="btn-confirm-delete">Yes</button>
-                </div>
             </div>
         </div>
     </div>
@@ -160,12 +139,35 @@
         getAmount()
         $('.btn-deleteCD').on('click', function (){
             const idCartDetail = $(this).attr('id')
-            $('#btn-confirm-delete').on('click', async function (){
-                $('.modal-backdrop').addClass('hide')
-               await deleteCartDetail(idCartDetail)
-            })
+            showConfirmDelete(idCartDetail)
         })
         getSubTotal()
+        await showCartQuantity()
+    }
+    function showConfirmDelete(idCartDetail){
+        Swal.fire({
+            title: "Are you sure to remove this cart item?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                deleteCartDetail(idCartDetail)
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your cart item has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
+    }
+    async function getCustomerPresent(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/customerInfo'
+        })
     }
 
     function getAmount(){
@@ -202,8 +204,8 @@
                         </div>
                     </td>
                     <td class="amount-cell"></td>
-                    <td><i data-bs-toggle="modal" data-bs-target="#modalConfirm" id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD" ></i></td>
-<!--                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD "></i></td>-->
+<!--                    <td><i data-bs-toggle="modal" data-bs-target="#modalConfirm" id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD" ></i></td>-->
+                    <td><i id="${cartDetail.id}" class="fas fa-trash-alt btn-deleteCD "></i></td>
                 </tr>`
     }
     function getSubTotal(){
@@ -213,7 +215,7 @@
         })
         let strSubTotal = '$' + subTotal
         $('#subtotal-cart').text(strSubTotal)
-        let totalAmount = subTotal +5;
+        let totalAmount = subTotal;
         let strTotalAmount = '$' +  totalAmount;
         $('.total-amount-cart').text(strTotalAmount)
     }
@@ -221,7 +223,7 @@
         let strId = 'quantity-CD-' + idCartDetail;
         var quantity = parseInt(document.getElementById(strId).innerText)
         if(quantity <= 1){
-            toastr.error("You can't buy less 1 product/oder")
+            toastr.error("You can't buy less 1 product/order")
         }else{
             quantity--
             document.getElementById(strId).innerText = quantity;
@@ -230,11 +232,41 @@
             updateCartDetail(idCartDetail, quantity)
         }
     }
+    function creatOder(){
+        const id = $('#id').val()
+        const fullName = $('#fullName').val()
+        const address = $('#address').val()
+        const email = $('#email').val()
+        const mobile = $('#mobile').val()
+
+        const customerInfo = {
+            id,
+            fullName,
+            address,
+            email,
+            mobile
+        }
+        console.log(customerInfo)
+        $.ajax({
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            method: "POST",
+            url: 'http://localhost:8081/api/order/create',
+            data: JSON.stringify(customerInfo)
+        }).done((data) =>{
+            toastr.success("Create order successfully!!!")
+            showCart()
+        }).fail((err) =>{
+            toastr.error("Create order fail!")
+            showCart()
+        })
+    }
     function addCd(idCartDetail){
         let strId = 'quantity-CD-' + idCartDetail;
         var quantity = parseInt(document.getElementById(strId).innerText)
         if(quantity >= 10){
-            toastr.error("You can't buy more 10 product/oder")
+            toastr.error("You can't buy more 10 product/order")
         }else{
             quantity++
             document.getElementById(strId).innerText = quantity;
@@ -243,10 +275,32 @@
             updateCartDetail(idCartDetail, quantity)
         }
     }
-    $('.btn-submit-form').on('click', function (){
-        $('.form-infoCustomer').submit()
+    $('.btn-submit-form').on('click', async function (){
+        await creatOder()
     })
-    showCart()
+    async function showCartQuantity(){
+        const cart = await getAllCartDetail();
+        $('.fa-shopping-cart').empty()
+        $('.fa-shopping-cart').removeClass('btn-add-cart')
+        if(cart.length != 0){
+            $('.fa-shopping-cart').append(`<span class="position-relative top-0 start-40 translate-middle badge rounded-pill bg-danger quantity-cart-detail">${cart.length}</span>`)
+            $('.fa-shopping-cart').addClass('btn-add-cart')
+        }
+    }
+    async function renderInfo(){
+        const customerPresent = await getCustomerPresent();
+        $('#userPresent').text(customerPresent.fullName)
+        $('#id').val(customerPresent.id)
+        $('#fullName').val(customerPresent.fullName)
+        $('#address').val(customerPresent.address)
+        $('#email').val(customerPresent.email)
+        $('#mobile').val(customerPresent.mobile)
+    }
+    $(async () => {
+        await showCart()
+        await renderInfo()
+    })
+
 
 </script>
 </body>
