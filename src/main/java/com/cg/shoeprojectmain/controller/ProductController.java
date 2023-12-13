@@ -13,6 +13,10 @@ public class ProductController {
     }
     @GetMapping("/management")
     public String showManagement(){
+        return "/admin/oderManagement";
+    }
+    @GetMapping("/show")
+    public String showProductManagement(){
         return "/admin/productManagement";
     }
 }

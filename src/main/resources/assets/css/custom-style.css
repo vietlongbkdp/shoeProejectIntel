@@ -192,3 +192,19 @@ i {
 .hide{
   display: none;
 }
+.data-product-table td{
+  font-size: 14px;
+
+}
+.data-product-table td p{
+  margin: auto;
+}
+.select-area{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.select-area select{
+  width: 15rem;
+}

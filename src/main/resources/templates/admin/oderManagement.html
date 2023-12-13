@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe</title>
+    <link rel="icon" type="image/x-icon" href="/assets/image/favicon.ico">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/fontawesome-5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <script src="/assets/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/assets/js/jQuery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <!-- Start TopBar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div>
+                <i class="fas fa-cart-plus"></i>
+                <a class="navbar-brand fs-6">Dashoard</a>
+            </div>
+
+            <div class="login_area"><a href="/products" class="fst-italic back-home" id="userPresent"> <i class="fas fa-sign-out-alt fs-6"></i></a></div>
+        </div>
+    </nav>
+    <!-- End TopBar -->
+    <div class="row">
+        <div class="col-2 side-bar-custom">
+
+            <div>
+                <h5 class="my-3">Menu</h5>
+                <h6 class="my-3 fs-6 btn-active-selected" style="cursor: pointer"><i class="fas fa-shopping-cart"></i> Order List</h6>
+                <h6 class="my-3 fs-6 btn-product-page" style="cursor: pointer"><i class="fas fa-tasks"></i> Products</h6>
+                <div class="container-fluid">
+                    <div class="row" id="product-data">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="main-product">
+                <h5 class="fw-bold">Order Management</h5>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-hover table-order">
+                            <thead>
+                            <tr class="header-table-oder">
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Shipping</th>
+                                <th scope="col">Total Amount</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Actions </th>
+                            </tr>
+                            </thead>
+                            <tbody class="data-order-table">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-5 detail-oder-show hide">
+                        <div class="d-flex justify-content-between">
+                            <h5>Order Detail</h5>
+                            <i class="far fa-times-circle close-form-show" style="margin-top: 1rem; cursor: pointer"></i></div>
+
+                        <div class="info-order">
+                            <h6>Order Information</h6>
+                            <div class="record-detail">
+                                <p>Subtotal</p>
+                                <p class="title-record total-buying"></p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Shipping</p>
+                                <p class="title-record shipping-fee"></p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Total</p>
+                                <p class="title-record total-paying"></p>
+                            </div>
+                        </div>
+
+                        <div class="info-order">
+                            <h6>Customer Information</h6>
+                            <div class="record-detail">
+                                <p>FullName</p>
+                                <p class="title-record customer-name"></p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Email</p>
+                                <p class="title-record customer-mail"></p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Mobile</p>
+                                <p class="title-record customer-mobile"></p>
+                            </div>
+                            <div class="record-detail">
+                                <p>Address</p>
+                                <p class="title-record customer-address"></p>
+                            </div>
+                        </div>
+                        <div class="info-order">
+                            <h6>Order details</h6>
+                            <table class="table table-hover">
+                                <tbody class="data-detail-table">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<script>
+    async function getCustomerPresent(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/customerInfo'
+        })
+    }
+    async function getAllOder(){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/order'
+        })
+    }
+    async function getAllOrderDetail(idOrder){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/order/' + idOrder
+        })
+    }
+    async function addData(){
+        const customerPresent = await getCustomerPresent();
+        $('#userPresent').append(customerPresent.fullName)
+        const orders = await getAllOder();
+        orders.forEach(item =>{
+            const strRender = renderTable0rder(item);
+            $('.data-order-table').append(strRender);
+        })
+    }
+   function renderTable0rder(order){
+        return `            <tr>
+                                <td>${order.createAt}</td>
+                                <td>Free</td>
+                                <td>${order.totalAmount}</td>
+                                <td><span style="background-color: #4d5154; color: white">Confirming</span></td>
+                                <td>${order.customerName}</td>
+                                <td style="cursor: pointer"><i class="fas fa-info-circle" onclick="showDetailOder(${order.id})" ></i></td>
+                            </tr>`
+    }
+    function renderInfoOrder(order){
+        $('.total-buying').text(order.totalAmount)
+        $('.shipping-fee').text("Free")
+        $('.total-paying').text(order.totalAmount)
+        $('.customer-name').text(order.customerName)
+        $('.customer-mail').text(order.customerInfo.email)
+        $('.customer-mobile').text(order.phone)
+        $('.customer-address').text(order.address)
+
+
+    }
+    async function showDetailOder(idOrder){
+        const tableArea = document.querySelector('.table-order').parentElement
+        tableArea.classList.replace('col-12', 'col-7')
+        document.querySelector('.detail-oder-show').classList.remove('hide')
+        const orderDetails = await getAllOrderDetail(idOrder)
+        $('.data-detail-table').empty()
+        orderDetails.forEach(item =>{
+            const strRenderDT = renderDataOrderDetail(item)
+            $('.data-detail-table').append(strRenderDT)
+        })
+        const order = await getOrderPresent(idOrder)
+        renderInfoOrder(order)
+    }
+    $('.close-form-show').on('click', function (){
+        const tableArea = document.querySelector('.table-order').parentElement
+        tableArea.classList.replace('col-7', 'col-12')
+        document.querySelector('.detail-oder-show').classList.add('hide')
+    })
+    async function getOrderPresent(idOrder){
+        return await $.ajax({
+            url: 'http://localhost:8081/api/order/getOrder/' + idOrder
+        })
+    }
+    function renderDataOrderDetail(item){
+        const amount = item.pricePresent *item.quantity
+        return`<tr>
+                    <td style="text-align: left"><img src="${item.product.img}" style="width: 5rem; height: 3rem; margin-left: 0; padding-right: 1rem"><span>${item.product.title}</span></td>
+                    <td>${item.quantity}</td>
+                    <td>${item.pricePresent}</td>
+                    <td>${amount}</td>
+               </tr>`
+    }
+    $('.back-home').on('click', function (){
+        window.location.href = 'http://localhost:8081/products'
+    })
+    $('.btn-product-page').on('click', function (){
+        window.location.href = 'http://localhost:8081/products/show'
+    })
+    $(async () => {
+        await addData()
+    })
+
+</script>
+</body>

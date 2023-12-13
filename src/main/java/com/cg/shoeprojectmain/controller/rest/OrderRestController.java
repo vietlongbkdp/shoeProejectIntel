@@ -36,6 +36,11 @@ public class OrderRestController {
             List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrder_Id(idOrder);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }
+    @GetMapping("/getOrder/{idOrder}")
+    public ResponseEntity<?> getOrderPresent(@PathVariable Long idOrder){
+        Order order = orderRepository.findById(idOrder).get();
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody CustomerInfo customerInfo) {
         Long idUser = customerInfo.getId();

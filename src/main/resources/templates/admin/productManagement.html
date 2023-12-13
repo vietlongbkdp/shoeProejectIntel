@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <div>
                 <i class="fas fa-cart-plus"></i>
-                <a class="navbar-brand fs-6">Dashoard</a>
+                <a class="navbar-brand fs-6">Dashboard</a>
             </div>
 
             <div class="login_area"><a href="/products" class="fst-italic back-home" id="userPresent"> <i class="fas fa-sign-out-alt fs-6"></i></a></div>
@@ -35,8 +35,8 @@
 
             <div>
                 <h5 class="my-3">Menu</h5>
-                <h6 class="my-3 fs-6 btn-active-selected"><i class="fas fa-shopping-cart"></i> Order List</h6>
-                <h6 class="my-3 fs-6"><i class="fas fa-tasks"></i> Products</h6>
+                <h6 class="my-3 fs-6 btn-order-management"><i class="fas fa-shopping-cart"></i> Order List</h6>
+                <h6 class="my-3 fs-6 btn-active-selected"><i class="fas fa-tasks"></i> Products</h6>
                 <div class="container-fluid">
                     <div class="row" id="product-data">
                     </div>
@@ -45,72 +45,50 @@
         </div>
         <div class="col-10">
             <div class="main-product">
-                <h5 class="fw-bold">Order Management</h5>
+                <h5 class="fw-bold">Product List Management</h5>
+                <div class="select-area">
+                    <select class="form-select" id="select-field" aria-label="Select Field">
+                        <option selected value="id">ID</option>
+                        <option value="title">Title</option>
+                        <option value="category">Category</option>
+                        <option value="company">Company</option>
+                        <option value="color">Color</option>
+                        <option value="newPrice">Price</option>
+                    </select>
+                    <select class="form-select" id="select-direction" aria-label="Select Direction">
+                        <option selected value="asc">Ascending</option>
+                        <option value="desc">Decreasing</option>
+                    </select>
+                    <select class="form-select" id="select-size" aria-label="Select quantity per Page">
+                        <option selected value="5">5 product</option>
+                        <option value="10">10 product</option>
+                        <option value="15">15 product</option>
+                        <option value="20">20 product</option>
+                        <option value="25">25 product</option>
+                        <option value="30">30 product</option>
+                        <option value="40">40 product</option>
+                        <option value="50">50 product</option>
+                        <option value="100">100 product</option>
+                    </select>
+                </div>
                 <div class="row">
                     <div class="col-12">
-                        <table class="table table-hover table-order">
+                        <table class="table table-hover table-product">
                             <thead>
                             <tr class="header-table-oder">
-                                <th scope="col">Order Date</th>
-                                <th scope="col">Shipping</th>
-                                <th scope="col">Total Amount</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Customer Name</th>
-                                <th scope="col">Actions </th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Rate</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <tbody class="data-order-table">
+                            <tbody class="data-product-table">
 
                             </tbody>
                         </table>
-                    </div>
-                    <div class="col-5 detail-oder-show hide">
-                        <div class="d-flex justify-content-between">
-                            <h5>Order Detail</h5>
-                            <i class="far fa-times-circle close-form-show" style="margin-top: 1rem; cursor: pointer"></i></div>
-
-                        <div class="info-order">
-                            <h6>Order Information</h6>
-                            <div class="record-detail">
-                                <p>Subtotal</p>
-                                <p class="title-record">$600</p>
-                            </div>
-                            <div class="record-detail">
-                                <p>Shipping</p>
-                                <p class="title-record">Free</p>
-                            </div>
-                            <div class="record-detail">
-                                <p>Total</p>
-                                <p class="title-record">$600</p>
-                            </div>
-                        </div>
-
-                        <div class="info-order">
-                            <h6>Customer Information</h6>
-                            <div class="record-detail">
-                                <p>Fullname</p>
-                                <p class="title-record">Khoa Nguyễn</p>
-                            </div>
-                            <div class="record-detail">
-                                <p>Email</p>
-                                <p class="title-record">nguyenhuuanhkhoa@gmail.com</p>
-                            </div>
-                            <div class="record-detail">
-                                <p>Mobile</p>
-                                <p class="title-record">+1 (996) 449-4832</p>
-                            </div>
-                            <div class="record-detail">
-                                <p>Address</p>
-                                <p class="title-record">28 Nguyễn Tri Phương, Phú Nhuận, TP Huế</p>
-                            </div>
-                        </div>
-                        <div class="info-order">
-                            <h6>Order details</h6>
-                            <table class="table table-hover">
-                                <tbody class="data-detail-table">
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -118,70 +96,73 @@
         </div>
     </div>
 <script>
+    const pageCurrent = 0;
     async function getCustomerPresent(){
         return await $.ajax({
             url: 'http://localhost:8081/api/customerInfo'
         })
     }
-    async function getAllOder(){
+    async function getAllProduct(){
+        const sortField = $('#select-field').find(":selected").val();
+        const direction = $('#select-direction').find(":selected").val();
+        const size = parseInt($('#select-size').find(":selected").val());
         return await $.ajax({
-            url: 'http://localhost:8081/api/order'
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            method: 'GET',
+            url: 'http://localhost:8081/api/product/all',
+            data: {
+                page: pageCurrent,
+                size: size,
+                sortField : sortField,
+                direction : direction
+            }
         })
     }
-    async function getAllOrderDetail(idOrder){
-        return await $.ajax({
-            url: 'http://localhost:8081/api/order/' + idOrder
+    async function showDataProduct(){
+        const products = await getAllProduct()
+        $('.data-product-table').empty()
+        products.content.forEach(item =>{
+            const strRenderProduct = renderTableProduct(item)
+            $('.data-product-table').append(strRenderProduct)
         })
     }
-    async function addData(){
-        const customerPresent = await getCustomerPresent();
-        $('#userPresent').append(customerPresent.fullName)
-        const orders = await getAllOder();
-        orders.forEach(item =>{
-            const strRender = renderTable0rder(item);
-            $('.data-order-table').append(strRender);
-        })
-    }
-   function renderTable0rder(order){
+   function renderTableProduct(product){
+        let colors = product.color.nameColor;
+       console.log(colors)
+        if(colors === 'White'){
+            colors = 'black'
+        }else colors = 'white'
+
         return `            <tr>
-                                <td>${order.createAt}</td>
-                                <td>Free</td>
-                                <td>${order.totalAmount}</td>
-                                <td style="background-color: #4d5154; color: white">Confirming</td>
-                                <td>${order.customerName}</td>
-                                <td style="cursor: pointer"><i class="fas fa-info-circle" onclick="showDetailOder(${order.id})" ></i></td>
+                                <td style="text-align: left"><img src="${product.img}" style="width: 6rem; height: 4rem; margin-right: 2rem"><span> ${product.title}</span></td>
+                                <td><p style="background-color: ${product.color.nameColor}; border: solid 1px blueviolet; border-radius: 5px;color: ${colors}; font-size: 13px; font-weight: bold">${product.color.nameColor}</p></td>
+                                <td>${product.category.nameCategory}</td>
+                                <td>${product.company.nameCompany}</td>
+                                <td>
+                                     <div style="text-decoration: line-through">$${product.prevPrice}</div>
+                                     <div>$${product.newPrice}</div>
+                                </td>
+                                <td>
+                                <div><span>${product.star} </span><span><i class="fas fa-star" style="color: #fd7e14;"></i></span></div>
+                                <div><span>${product.reviews} </span><span><i class="fas fa-eye" style="color: #0a58ca;"></i></span></div>
+                                </td>
+                                <td><span><i class="fas fa-edit"></i> </span><span><i class="fas fa-trash-alt" style="color: #ff0000;"></i></span></td>
                             </tr>`
     }
-    async function showDetailOder(idOrder){
-        const tableArea = document.querySelector('.table-order').parentElement
-        tableArea.classList.replace('col-12', 'col-7')
-        document.querySelector('.detail-oder-show').classList.remove('hide')
-        const orderDetails = await getAllOrderDetail(idOrder)
-        $('.data-detail-table').empty()
-        orderDetails.forEach(item =>{
-            const strRenderDT = renderDataOrderDetail(item)
-            $('.data-detail-table').append(strRenderDT)
-        })
-    }
-    $('.close-form-show').on('click', function (){
-        const tableArea = document.querySelector('.table-order').parentElement
-        tableArea.classList.replace('col-7', 'col-12')
-        document.querySelector('.detail-oder-show').classList.add('hide')
-    })
-    function renderDataOrderDetail(item){
-        const amount = item.pricePresent *item.quantity
-        return`<tr>
-                    <td style="text-align: left"><img src="${item.product.img}" style="width: 7rem; height: 4rem; margin-left: 0; padding-right: 1rem"><span>${item.product.title}</span></td>
-                    <td>${item.quantity}</td>
-                    <td>${item.pricePresent}</td>
-                    <td>${amount}</td>
-               </tr>`
-    }
+
     $('.back-home').on('click', function (){
         window.location.href = 'http://localhost:8081/products'
     })
+    $('.btn-order-management').on('click', function (){
+        window.location.href = 'http://localhost:8081/products/management'
+    })
+    $('.form-select').on('change', function (){
+        showDataProduct()
+    })
     $(async () => {
-        await addData()
+        await showDataProduct()
     })
 
 </script>

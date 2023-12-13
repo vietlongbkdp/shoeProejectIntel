@@ -36,4 +36,15 @@ public class ProductRestController {
             Page<Product> products = productRepository.filterProduct(category, company, new BigDecimal(maxPrice), new BigDecimal(minPrice), color, search.toLowerCase(), pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+    @GetMapping("/all")
+    public ResponseEntity<Page<Product>> getAllProductList(
+            @RequestParam(name = "page", required = false) int page,
+            @RequestParam(name = "size", required = false) int size,
+            @RequestParam(name = "sortField", required = false) String sortField,
+            @RequestParam(name = "direction", required = false) String direction,
+            Pageable pageable){
+        pageable = PageRequest.of(page, size, (direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC), sortField);
+        Page<Product> products = productRepository.findAll(pageable);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }
