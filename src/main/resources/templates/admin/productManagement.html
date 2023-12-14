@@ -45,7 +45,67 @@
         </div>
         <div class="col-10">
             <div class="main-product">
-                <h5 class="fw-bold">Product List Management</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold">Product List Management</h5>
+                    <button type="button" class="btn btn-warning my-1" style="height: 2.5rem"> <i class="fas fa-plus"></i> Add new Product</button>
+                </div>
+                <div class="row add-product-area">
+                    <form class="col-8 row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="title" class="form-label">Title</label>
+                                <input class="input-area" style="width: 17rem" id="title" name="title" type="text" placeholder="Title">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="form-label">Price</label>
+                                <input class="input-area" style="width: 17rem" id="price" name="price" type="number" placeholder="Price">
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <button type="button" class="btn btn-success"><i class="fas fa-save"></i> Add</button>
+                                <button type="button" class="btn btn-dark"><i class="fas fa-times-circle"></i> Close</button>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="title" class="form-label">Category</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected disabled>Select Category</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="title" class="form-label">Company</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="title" class="form-label">Color</label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-4 text-center upload-image-area">
+                        <input type="file" accept="image/*" class="d-none">
+                        <div><i class="fas fa-cloud-upload-alt fs-1"></i></div>
+                        <div><p class="text-decoration-underline">Browse a photo</p></div>
+                    </div>
+                </div>
                 <div class="select-area">
                     <select class="form-select" id="select-field" aria-label="Select Field">
                         <option selected value="id">ID</option>
@@ -102,6 +162,10 @@
             url: 'http://localhost:8081/api/customerInfo'
         })
     }
+    async function loadPageInfo(){
+        const customerPresent = await getCustomerPresent()
+        $('#userPresent').prepend(customerPresent.fullName)
+    }
     async function getAllProduct(){
         const sortField = $('#select-field').find(":selected").val();
         const direction = $('#select-direction').find(":selected").val();
@@ -128,16 +192,16 @@
             $('.data-product-table').append(strRenderProduct)
         })
     }
+
    function renderTableProduct(product){
         let colors = product.color.nameColor;
-       console.log(colors)
         if(colors === 'White'){
             colors = 'black'
         }else colors = 'white'
 
         return `            <tr>
-                                <td style="text-align: left"><img src="${product.img}" style="width: 6rem; height: 4rem; margin-right: 2rem"><span> ${product.title}</span></td>
-                                <td><p style="background-color: ${product.color.nameColor}; border: solid 1px blueviolet; border-radius: 5px;color: ${colors}; font-size: 13px; font-weight: bold">${product.color.nameColor}</p></td>
+                                <td style="text-align: left"><img src="${product.img}" style="width: 6rem; max-height: 4rem; margin-right: 2rem"><span> ${product.title}</span></td>
+                                <td><p style="background-color: ${product.color.nameColor}; border: solid 1px; border-radius: 5px;color: ${colors}; font-size: 13px; font-weight: bold">${product.color.nameColor}</p></td>
                                 <td>${product.category.nameCategory}</td>
                                 <td>${product.company.nameCompany}</td>
                                 <td>
@@ -161,7 +225,9 @@
     $('.form-select').on('change', function (){
         showDataProduct()
     })
+
     $(async () => {
+        await loadPageInfo()
         await showDataProduct()
     })
 

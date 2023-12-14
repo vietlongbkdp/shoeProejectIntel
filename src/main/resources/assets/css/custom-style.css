@@ -206,5 +206,15 @@ i {
   margin-bottom: 2rem;
 }
 .select-area select{
-  width: 15rem;
+  width: 10rem;
+}
+.upload-image-area{
+  border: dashed gray 1px;
+  border-radius: 1rem;
+}
+.add-product-area{
+  background-color: #b9dcff;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
 }
